@@ -1,0 +1,283 @@
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --green: #12a653;
+  --red: #ed292f;
+  --blue: #2864f5;
+  --orange: #fa641c;
+  --purple: #873cff;
+  --pink: #e82b78;
+  --border: #e0e1e5;
+  --muted: #85858d;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", Arial, sans-serif;
+  color: #17171b;
+  background: #fff;
+}
+
+button, input {
+  font: inherit;
+}
+
+.app {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  min-height: 500px;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 335px;
+  flex: 0 0 335px;
+  padding: 12px 10px;
+  overflow-y: auto;
+  background: white;
+  border-right: 1px solid var(--border);
+  z-index: 2;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: #666;
+  text-decoration: none;
+  font-size: 11px;
+}
+
+.back:hover {
+  color: #111;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+}
+
+.search-box span {
+  font-size: 21px;
+  color: #777;
+}
+
+.search-box input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  font-size: 11px;
+  background: transparent;
+}
+
+.search-box button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: #777;
+  font-size: 19px;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 12px 0;
+}
+
+.filter {
+  border: 0;
+  border-radius: 20px;
+  padding: 5px 8px;
+  font-size: 9px;
+  font-weight: 700;
+  color: #555;
+  background: #f0f0f2;
+  cursor: pointer;
+}
+
+.filter.active {
+  color: white;
+  background: #202126;
+}
+
+.filter[data-type="Football"].active { background: var(--green); }
+.filter[data-type="Baseball"].active { background: var(--red); }
+.filter[data-type="Multi-sport"].active { background: var(--blue); }
+.filter[data-type="Futsal / Indoor"].active { background: var(--orange); }
+.filter[data-type="Fitness / Gym"].active { background: var(--purple); }
+.filter[data-type="Gymnastics"].active { background: var(--pink); }
+
+.result-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-top: 1px solid #eee;
+}
+
+#count {
+  font-size: 10px;
+  color: #62626a;
+}
+
+.result-bar button {
+  border: 0;
+  background: transparent;
+  font-size: 10px;
+  color: #777;
+  cursor: pointer;
+}
+
+.places {
+  display: grid;
+  gap: 8px;
+}
+
+.place-card {
+  padding: 12px 10px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.place-card:hover,
+.place-card.selected {
+  border-color: #aaa;
+  box-shadow: 0 2px 9px #0000000a;
+}
+
+.place-title {
+  display: flex;
+  gap: 7px;
+  align-items: flex-start;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.dot {
+  flex: 0 0 7px;
+  width: 7px;
+  height: 7px;
+  margin-top: 4px;
+  border-radius: 50%;
+}
+
+.place-address,
+.place-description {
+  margin: 5px 0 0 14px;
+  font-size: 9px;
+  line-height: 1.5;
+  color: #777780;
+}
+
+.place-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 8px 0 0 14px;
+}
+
+.tag {
+  padding: 3px 7px;
+  border-radius: 20px;
+  font-size: 8px;
+  background: #f0f0f2;
+  color: #555;
+}
+
+.tag.category {
+  color: white;
+  font-weight: 700;
+}
+
+.map-area {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  background: #f4f4f2;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  background: #f4f4f2;
+}
+
+.map-header {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 500;
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  padding: 12px 17px;
+  background: #ffffffed;
+  border-bottom-left-radius: 8px;
+}
+
+.brand-symbol {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.brand {
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.map-message {
+  position: absolute;
+  z-index: 1000;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 2px 12px #0002;
+  font-size: 12px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 650px) {
+  .app {
+    flex-direction: column;
+    height: 100dvh;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex: 0 0 48%;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .map-area {
+    flex: 1;
+    min-height: 200px;
+  }
+}

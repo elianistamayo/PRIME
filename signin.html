@@ -1,0 +1,1236 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080808">
+  <title>Sign In | PRIME</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --orange: #ff5a00;
+      --black: #080808;
+      --panel: #141416;
+      --line: #29292d;
+      --muted: #99999f;
+      --white: #f7f7f7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--black);
+      color: var(--white);
+      font-family: Inter, Arial, sans-serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, input {
+      font: inherit;
+    }
+
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .topbar {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(20px, 5vw, 70px);
+      border-bottom: 1px solid #202023;
+    }
+
+    .brand {
+      font-size: 29px;
+      font-weight: 900;
+      letter-spacing: 4px;
+    }
+
+    .brand span {
+      color: var(--orange);
+    }
+
+    .back {
+      color: #c5c5c9;
+      font-size: 13px;
+    }
+
+    .back:hover, .text-link:hover {
+      color: var(--orange);
+    }
+
+    main {
+      width: min(1120px, 90%);
+      margin: 0 auto;
+      padding: 66px 0 58px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(280px, .8fr);
+      gap: clamp(40px, 8vw, 110px);
+      align-items: start;
+    }
+
+    .eyebrow {
+      font: 700 10px "Courier New", monospace;
+      letter-spacing: 3px;
+      color: var(--orange);
+      text-transform: uppercase;
+      margin-bottom: 17px;
+    }
+
+    h1 {
+      font-size: clamp(42px, 6vw, 68px);
+      line-height: .96;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .intro {
+      color: #a7a7ad;
+      font-size: 14px;
+      line-height: 1.7;
+      max-width: 440px;
+      margin-bottom: 30px;
+    }
+
+    .form-wrap {
+      max-width: 480px;
+      min-width: 0;
+    }
+
+    .message {
+      display: none;
+      padding: 12px 14px;
+      border-radius: 9px;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 18px;
+      overflow-wrap: anywhere;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message.error {
+      background: #351616;
+      border: 1px solid #753232;
+      color: #ffc0c0;
+    }
+
+    .message.success {
+      background: #12351e;
+      border: 1px solid #246b3b;
+      color: #b3f4c1;
+    }
+
+    .field {
+      margin-bottom: 19px;
+    }
+
+    .field-label {
+      display: block;
+      color: #e9e9ec;
+      font: 700 10px "Courier New", monospace;
+      letter-spacing: 2px;
+      margin-bottom: 9px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    input[type="email"],
+    input[type="password"],
+    input[type="text"] {
+      width: 100%;
+      padding: 15px;
+      background: #101012;
+      border: 1px solid #343439;
+      border-radius: 9px;
+      color: #fff;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .input-wrap input {
+      padding-right: 60px;
+    }
+
+    input:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 2px #ff5a001c;
+    }
+
+    input::placeholder {
+      color: #66666d;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 0;
+      background: transparent;
+      color: #aaa;
+      font-size: 12px;
+      cursor: pointer;
+      padding: 7px;
+    }
+
+    .toggle-password:hover {
+      color: #fff;
+    }
+
+    .form-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 7px 0 22px;
+      font-size: 12px;
+      color: #b7b7bd;
+    }
+
+    .remember {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .remember input {
+      accent-color: var(--orange);
+      width: 14px;
+      height: 14px;
+    }
+
+    .text-link {
+      color: #ff8a48;
+      cursor: pointer;
+    }
+
+    .primary {
+      width: 100%;
+      padding: 15px 18px;
+      border: 0;
+      border-radius: 30px;
+      background: linear-gradient(90deg, #ff4d0a, #ff7a00);
+      color: white;
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 8px 24px #ff5a0030;
+    }
+
+    .primary:hover {
+      filter: brightness(1.08);
+    }
+
+    .primary:disabled, .social:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #777780;
+      font-size: 10px;
+      letter-spacing: 1px;
+      margin: 24px 0 15px;
+    }
+
+    .divider::before, .divider::after {
+      content: "";
+      height: 1px;
+      background: #303035;
+      flex: 1;
+    }
+
+    .socials {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .social {
+      padding: 13px 10px;
+      background: #111113;
+      border: 1px solid #35353a;
+      border-radius: 9px;
+      color: #f4f4f6;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .social:hover {
+      background: #202024;
+      border-color: #55555d;
+    }
+
+    .switch {
+      color: #a8a8ae;
+      font-size: 12px;
+      text-align: center;
+      margin-top: 23px;
+    }
+
+    .switch button {
+      background: none;
+      border: 0;
+      color: #ff8a48;
+      font-weight: 700;
+      cursor: pointer;
+      margin-left: 4px;
+    }
+
+    .legal {
+      font-size: 10px;
+      line-height: 1.6;
+      color: #68686f;
+      margin-top: 28px;
+    }
+
+    .faq h2 {
+      font-size: 24px;
+      letter-spacing: -.5px;
+      margin: 4px 0 12px;
+    }
+
+    .faq-intro {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #8e8e95;
+      margin-bottom: 18px;
+    }
+
+    .question {
+      border-bottom: 1px solid #2c2c31;
+    }
+
+    .question button {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      background: none;
+      border: 0;
+      color: #f1f1f3;
+      text-align: left;
+      padding: 19px 0;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .question button span {
+      font-size: 21px;
+      color: var(--orange);
+      font-weight: 400;
+    }
+
+    .answer {
+      display: none;
+      color: #9b9ba2;
+      font-size: 12px;
+      line-height: 1.7;
+      padding: 0 20px 18px 0;
+    }
+
+    .question.open .answer {
+      display: block;
+    }
+
+    .question button span::before {
+      content: "+";
+    }
+
+    .question.open button span::before {
+      content: "−";
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    @media (max-width: 760px) {
+      .topbar {
+        min-height: 70px;
+        padding: 0 20px;
+      }
+
+      .brand {
+        font-size: 25px;
+      }
+
+      main {
+        padding: 44px 0;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+        gap: 52px;
+      }
+
+      .form-wrap {
+        max-width: none;
+      }
+
+      h1 {
+        font-size: 48px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .socials {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        align-items: flex-start;
+      }
+
+      .topbar {
+        padding: 0 16px;
+      }
+
+      main {
+        width: 88%;
+      }
+
+      .back {
+        font-size: 11px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="PRIME home">
+      PRIME<span>.</span>
+    </a>
+
+    <a class="back" href="index.html">← Back to PRIME</a>
+  </header>
+
+  <main>
+    <div class="layout">
+
+      <section class="form-wrap" aria-labelledby="formTitle">
+        <p class="eyebrow">Your account</p>
+
+        <h1 id="formTitle">Sign in</h1>
+
+        <p class="intro" id="formDescription">
+          Welcome back. Sign in to discover courts and connect with your sports community.
+        </p>
+
+        <div id="message" class="message"
+             role="status" aria-live="polite"></div>
+
+        <form id="authForm">
+          <div class="field">
+            <label class="field-label" for="email">EMAIL ADDRESS</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+            >
+          </div>
+
+          <div class="field" id="passwordField">
+            <label class="field-label" for="password">PASSWORD</label>
+            <div class="input-wrap">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                minlength="6"
+                required
+              >
+              <button type="button" class="toggle-password"
+                      id="togglePassword">Show</button>
+            </div>
+          </div>
+
+          <div class="field" id="confirmField" hidden>
+            <label class="field-label" for="confirmPassword">
+              CONFIRM PASSWORD
+            </label>
+            <div class="input-wrap">
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="Enter your password again"
+                autocomplete="new-password"
+                minlength="6"
+              >
+              <button type="button" class="toggle-password"
+                      id="toggleConfirm">Show</button>
+            </div>
+          </div>
+
+          <div class="field" id="newPasswordField" hidden>
+            <label class="field-label" for="newPassword">
+              NEW PASSWORD
+            </label>
+            <div class="input-wrap">
+              <input
+                type="password"
+                id="newPassword"
+                name="newPassword"
+                placeholder="Choose a new password"
+                autocomplete="new-password"
+                minlength="6"
+              >
+              <button type="button" class="toggle-password"
+                      id="toggleNew">Show</button>
+            </div>
+          </div>
+
+          <div class="form-row" id="loginOptions">
+            <label class="remember">
+              <input type="checkbox" id="rememberMe" checked>
+              Remember me
+            </label>
+            <a href="#" class="text-link" id="forgotPassword">
+              Forgot password?
+            </a>
+          </div>
+
+          <button type="submit" class="primary" id="submitButton">
+            Sign in
+          </button>
+        </form>
+
+        <div id="socialArea">
+          <div class="divider">OR CONTINUE WITH</div>
+          <div class="socials">
+            <button type="button" class="social" id="googleButton">
+              Continue with Google
+            </button>
+            <button type="button" class="social" id="appleButton">
+              Continue with Apple
+            </button>
+          </div>
+        </div>
+
+        <p class="switch" id="switchNote">
+          Don't have an account?
+          <button type="button" id="switchButton">Create one</button>
+        </p>
+
+        <p class="legal">
+          By continuing, you agree to PRIME's Terms of Service
+          and Privacy Policy.
+        </p>
+      </section>
+
+      <aside class="faq">
+        <p class="eyebrow">Need help?</p>
+        <h2>Frequently asked questions</h2>
+
+        <p class="faq-intro">
+          Quick answers to common questions about your PRIME account.
+        </p>
+
+        <div class="question open">
+          <button type="button" aria-expanded="true">
+            How do I create an account?
+            <span aria-hidden="true"></span>
+          </button>
+          <p class="answer">
+            Choose “Create one”, enter your email and a password, and submit
+            the form. If email confirmation is enabled, check your inbox.
+          </p>
+        </div>
+
+        <div class="question">
+          <button type="button" aria-expanded="false">
+            Is my data secure?
+            <span aria-hidden="true"></span>
+          </button>
+          <p class="answer">
+            PRIME uses Supabase Authentication to manage sign-in.
+            Keep your password private and use trusted devices.
+          </p>
+        </div>
+
+        <div class="question">
+          <button type="button" aria-expanded="false">
+            Can I sign in with Google or Apple?
+            <span aria-hidden="true"></span>
+          </button>
+          <p class="answer">
+            Yes, provided each provider is enabled and configured in
+            the PRIME Supabase project.
+          </p>
+        </div>
+
+        <div class="question">
+          <button type="button" aria-expanded="false">
+            What if I forget my password?
+            <span aria-hidden="true"></span>
+          </button>
+          <p class="answer">
+            Enter your email and select “Forgot password?”.
+            Use the link sent to your inbox to choose a new password.
+          </p>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <script>
+    // ==========================================
+    // 1. SUPABASE CONFIGURATION
+    // ==========================================
+
+    const SUPABASE_URL =
+      "https://wpxubughlgccoazfbazh.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_mUWo-fARNnfj4mFQ4bpoGQ_Cigsm_A-";
+
+    const $ = (id) => document.getElementById(id);
+
+    const emailInput = $("email");
+    const passwordInput = $("password");
+    const confirmPasswordInput = $("confirmPassword");
+    const newPasswordInput = $("newPassword");
+    const authForm = $("authForm");
+    const messageBox = $("message");
+    const submitButton = $("submitButton");
+    const googleButton = $("googleButton");
+    const appleButton = $("appleButton");
+    const rememberMe = $("rememberMe");
+
+    // ==========================================
+    // 2. SESSION STORAGE
+    // ==========================================
+
+    const authStorage = {
+      getItem(key) {
+        try {
+          return localStorage.getItem(key) ??
+                 sessionStorage.getItem(key);
+        } catch {
+          return sessionStorage.getItem(key);
+        }
+      },
+
+      setItem(key, value) {
+        try {
+          if (rememberMe.checked) {
+            localStorage.setItem(key, value);
+            sessionStorage.removeItem(key);
+          } else {
+            sessionStorage.setItem(key, value);
+            localStorage.removeItem(key);
+          }
+        } catch {
+          sessionStorage.setItem(key, value);
+        }
+      },
+
+      removeItem(key) {
+        try {
+          localStorage.removeItem(key);
+          sessionStorage.removeItem(key);
+        } catch {
+          // Storage may be unavailable in some browsers.
+        }
+      }
+    };
+
+    if (!window.supabase) {
+      $("formDescription").textContent =
+        "The authentication library could not load. Check your internet connection and reload the page.";
+      submitButton.disabled = true;
+      throw new Error("Supabase JavaScript library failed to load.");
+    }
+
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY,
+      {
+        auth: {
+          storage: authStorage,
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
+        }
+      }
+    );
+
+    // ==========================================
+    // 3. APPLICATION STATE
+    // ==========================================
+
+    let mode = "login";
+    let busy = false;
+    let recoveryMode = false;
+
+    const signinURL = () =>
+      new URL("signin.html", window.location.href).href;
+
+    const homeURL = () =>
+      new URL("index.html", window.location.href).href;
+
+    function showMessage(text, type = "success") {
+      messageBox.textContent = text;
+      messageBox.className = "message show " + type;
+    }
+
+    function clearMessage() {
+      messageBox.textContent = "";
+      messageBox.className = "message";
+    }
+
+    function setBusy(value, label = "") {
+      busy = value;
+
+      submitButton.disabled = value;
+      googleButton.disabled = value;
+      appleButton.disabled = value;
+
+      if (value) {
+        submitButton.textContent = label || "Please wait...";
+        return;
+      }
+
+      submitButton.textContent = recoveryMode
+        ? "Update password"
+        : mode === "login"
+          ? "Sign in"
+          : "Create account";
+    }
+
+    function redirectToHome() {
+      window.location.replace(homeURL());
+    }
+
+    function friendlyError(error) {
+      const raw = String(
+        error?.message || "An unexpected error occurred."
+      );
+
+      const lower = raw.toLowerCase();
+
+      if (lower.includes("invalid login credentials")) {
+        return "Incorrect email or password. Check your details or create an account.";
+      }
+
+      if (lower.includes("email not confirmed")) {
+        return "Please confirm your email using the link sent to your inbox.";
+      }
+
+      if (lower.includes("user already registered")) {
+        return "This email is already registered. Try signing in instead.";
+      }
+
+      if (
+        lower.includes("password should be at least") ||
+        lower.includes("password must be at least")
+      ) {
+        return "Your password must contain at least 6 characters.";
+      }
+
+      if (lower.includes("rate limit")) {
+        return "Too many attempts. Wait a little and try again.";
+      }
+
+      if (
+        lower.includes("failed to fetch") ||
+        lower.includes("networkerror")
+      ) {
+        return "Could not connect. Check your internet and Supabase configuration.";
+      }
+
+      if (
+        lower.includes("provider is not enabled") ||
+        lower.includes("unsupported provider")
+      ) {
+        return "This provider is not enabled or configured in Supabase.";
+      }
+
+      if (
+        lower.includes("invalid api key") ||
+        lower.includes("apikey")
+      ) {
+        return "Supabase rejected the API key. Check the project URL and publishable key.";
+      }
+
+      return raw;
+    }
+
+    // ==========================================
+    // 4. LOGIN / SIGNUP MODES
+    // ==========================================
+
+    function setMode(nextMode) {
+      mode = nextMode;
+      recoveryMode = false;
+
+      clearMessage();
+
+      $("passwordField").hidden = false;
+      $("confirmField").hidden = mode !== "signup";
+      $("newPasswordField").hidden = true;
+
+      passwordInput.required = true;
+      confirmPasswordInput.required = mode === "signup";
+      newPasswordInput.required = false;
+
+      $("loginOptions").hidden = mode !== "login";
+      $("socialArea").hidden = false;
+      $("switchNote").hidden = false;
+
+      $("formTitle").textContent =
+        mode === "login" ? "Sign in" : "Create account";
+
+      $("formDescription").textContent =
+        mode === "login"
+          ? "Welcome back. Sign in to discover courts and connect with your sports community."
+          : "Join PRIME and start connecting with your sports community.";
+
+      passwordInput.autocomplete =
+        mode === "login" ? "current-password" : "new-password";
+
+      passwordInput.value = "";
+      confirmPasswordInput.value = "";
+      newPasswordInput.value = "";
+
+      $("togglePassword").textContent = "Show";
+      $("toggleConfirm").textContent = "Show";
+      $("toggleNew").textContent = "Show";
+
+      passwordInput.type = "password";
+      confirmPasswordInput.type = "password";
+      newPasswordInput.type = "password";
+
+      submitButton.textContent =
+        mode === "login" ? "Sign in" : "Create account";
+
+      $("switchNote").replaceChildren(
+        document.createTextNode(
+          mode === "login"
+            ? "Don't have an account? "
+            : "Already have an account? "
+        )
+      );
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.id = "switchButton";
+      button.textContent =
+        mode === "login" ? "Create one" : "Sign in";
+
+      button.addEventListener("click", () => {
+        setMode(mode === "login" ? "signup" : "login");
+      });
+
+      $("switchNote").appendChild(button);
+    }
+
+    function startRecoveryMode() {
+      recoveryMode = true;
+      mode = "login";
+
+      clearMessage();
+
+      $("formTitle").textContent = "Reset password";
+      $("formDescription").textContent =
+        "Choose a new password for your PRIME account.";
+
+      $("passwordField").hidden = true;
+      $("confirmField").hidden = true;
+      $("newPasswordField").hidden = false;
+
+      passwordInput.required = false;
+      confirmPasswordInput.required = false;
+      newPasswordInput.required = true;
+
+      $("loginOptions").hidden = true;
+      $("socialArea").hidden = true;
+      $("switchNote").hidden = true;
+
+      submitButton.textContent = "Update password";
+    }
+
+    $("switchButton").addEventListener("click", () => {
+      setMode(mode === "login" ? "signup" : "login");
+    });
+
+    // ==========================================
+    // 5. SHOW / HIDE PASSWORDS
+    // ==========================================
+
+    function connectPasswordToggle(buttonId, inputId) {
+      $(buttonId).addEventListener("click", () => {
+        const input = $(inputId);
+        const reveal = input.type === "password";
+
+        input.type = reveal ? "text" : "password";
+        $(buttonId).textContent = reveal ? "Hide" : "Show";
+      });
+    }
+
+    connectPasswordToggle("togglePassword", "password");
+    connectPasswordToggle("toggleConfirm", "confirmPassword");
+    connectPasswordToggle("toggleNew", "newPassword");
+
+    // ==========================================
+    // 6. SIGN IN AND CREATE ACCOUNT
+    // ==========================================
+
+    authForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (busy) return;
+
+      clearMessage();
+
+      const email = emailInput.value.trim();
+
+      if (!email) {
+        showMessage("Enter your email address.", "error");
+        emailInput.focus();
+        return;
+      }
+
+      if (recoveryMode) {
+        const newPassword = newPasswordInput.value;
+
+        if (newPassword.length < 6) {
+          showMessage(
+            "Your new password must contain at least 6 characters.",
+            "error"
+          );
+          return;
+        }
+
+        setBusy(true, "Updating password...");
+
+        try {
+          const { error } = await supabaseClient.auth.updateUser({
+            password: newPassword
+          });
+
+          if (error) throw error;
+
+          recoveryMode = false;
+          authForm.reset();
+
+          setMode("login");
+
+          showMessage(
+            "Your password has been updated. Sign in with your new password.",
+            "success"
+          );
+        } catch (error) {
+          console.error("Password update error:", error);
+          showMessage(friendlyError(error), "error");
+        } finally {
+          setBusy(false);
+        }
+
+        return;
+      }
+
+      const password = passwordInput.value;
+
+      if (password.length < 6) {
+        showMessage(
+          "Your password must contain at least 6 characters.",
+          "error"
+        );
+        return;
+      }
+
+      if (
+        mode === "signup" &&
+        password !== confirmPasswordInput.value
+      ) {
+        showMessage("The passwords do not match.", "error");
+        return;
+      }
+
+      setBusy(
+        true,
+        mode === "login" ? "Signing in..." : "Creating account..."
+      );
+
+      try {
+        if (mode === "login") {
+          const { error } =
+            await supabaseClient.auth.signInWithPassword({
+              email,
+              password
+            });
+
+          if (error) throw error;
+
+          showMessage(
+            "Signed in successfully. Opening PRIME...",
+            "success"
+          );
+
+          // A short delay lets the success message appear.
+          window.setTimeout(redirectToHome, 500);
+          return;
+        }
+
+        const { data, error } =
+          await supabaseClient.auth.signUp({
+            email,
+            password,
+            options: {
+              emailRedirectTo: signinURL()
+            }
+          });
+
+        if (error) throw error;
+
+        if (
+          data.user &&
+          Array.isArray(data.user.identities) &&
+          data.user.identities.length === 0
+        ) {
+          showMessage(
+            "This email may already be registered. Try signing in.",
+            "error"
+          );
+          return;
+        }
+
+        if (data.session) {
+          showMessage(
+            "Account created successfully. Opening PRIME...",
+            "success"
+          );
+
+          window.setTimeout(redirectToHome, 500);
+        } else {
+          setMode("login");
+
+          emailInput.value = email;
+
+          showMessage(
+            "Your account has been created. Check your email and confirm your address before signing in.",
+            "success"
+          );
+        }
+      } catch (error) {
+        console.error("PRIME authentication error:", error);
+        showMessage(friendlyError(error), "error");
+      } finally {
+        setBusy(false);
+      }
+    });
+
+    // ==========================================
+    // 7. FORGOT PASSWORD
+    // ==========================================
+
+    $("forgotPassword").addEventListener("click", async (event) => {
+      event.preventDefault();
+
+      if (busy) return;
+
+      clearMessage();
+
+      const email = emailInput.value.trim();
+
+      if (!email) {
+        showMessage(
+          "Enter your email address first, then click Forgot password.",
+          "error"
+        );
+        emailInput.focus();
+        return;
+      }
+
+      setBusy(true, "Sending reset link...");
+
+      try {
+        const { error } =
+          await supabaseClient.auth.resetPasswordForEmail(email, {
+            redirectTo: signinURL()
+          });
+
+        if (error) throw error;
+
+        showMessage(
+          "If an account exists for that email, a reset link will be sent. Check your inbox.",
+          "success"
+        );
+      } catch (error) {
+        console.error("Password reset error:", error);
+        showMessage(friendlyError(error), "error");
+      } finally {
+        setBusy(false);
+      }
+    });
+
+    // ==========================================
+    // 8. GOOGLE AND APPLE SIGN-IN
+    // ==========================================
+
+    async function signInWithProvider(provider) {
+      if (busy) return;
+
+      clearMessage();
+      setBusy(true, "Connecting...");
+
+      try {
+        const { error } =
+          await supabaseClient.auth.signInWithOAuth({
+            provider,
+            options: {
+              redirectTo: signinURL()
+            }
+          });
+
+        if (error) throw error;
+
+        // Supabase redirects to the selected provider.
+      } catch (error) {
+        console.error(provider + " sign-in error:", error);
+        showMessage(friendlyError(error), "error");
+        setBusy(false);
+      }
+    }
+
+    googleButton.addEventListener("click", () => {
+      signInWithProvider("google");
+    });
+
+    appleButton.addEventListener("click", () => {
+      signInWithProvider("apple");
+    });
+
+    // ==========================================
+    // 9. FAQ ACCORDION
+    // ==========================================
+
+    document.querySelectorAll(".question button").forEach((button) => {
+      button.addEventListener("click", () => {
+        const question = button.parentElement;
+        const isOpen = question.classList.toggle("open");
+
+        button.setAttribute("aria-expanded", String(isOpen));
+      });
+    });
+
+    // ==========================================
+    // 10. AUTHENTICATION CALLBACKS
+    // ==========================================
+
+    supabaseClient.auth.onAuthStateChange((event, session) => {
+      if (event === "PASSWORD_RECOVERY") {
+        startRecoveryMode();
+        return;
+      }
+
+      if (event === "SIGNED_IN" && !recoveryMode && session) {
+        const hasOAuthCode =
+          new URLSearchParams(window.location.search).has("code");
+
+        const hasAuthToken =
+          window.location.hash.includes("access_token");
+
+        if (hasOAuthCode || hasAuthToken) {
+          window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname
+          );
+
+          redirectToHome();
+        }
+      }
+    });
+
+    // ==========================================
+    // 11. INITIALIZE PAGE
+    // ==========================================
+
+    async function initializePage() {
+      const params = new URLSearchParams(window.location.search);
+
+      const authError =
+        params.get("error_description") ||
+        params.get("error");
+
+      if (authError) {
+        showMessage(
+          "Authentication failed: " +
+            authError.replace(/\+/g, " "),
+          "error"
+        );
+        return;
+      }
+
+      // Supabase may return the recovery type in the URL hash.
+      if (window.location.hash.includes("type=recovery")) {
+        $("formDescription").textContent =
+          "Loading your password reset session...";
+      }
+
+      try {
+        const { data, error } =
+          await supabaseClient.auth.getSession();
+
+        if (error) throw error;
+
+        // Do not redirect automatically while processing a recovery link.
+        if (
+          data.session &&
+          !window.location.hash.includes("type=recovery") &&
+          !params.has("code")
+        ) {
+          // Leave the page available so the user can sign in,
+          // switch accounts, or access password recovery.
+        }
+      } catch (error) {
+        console.error("Session initialization error:", error);
+      }
+    }
+
+    initializePage();
+  </script>
+</body>
+</html>

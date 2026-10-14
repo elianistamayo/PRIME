@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PRIME | Interactive Map</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="map.css">
+</head>
+<body>
+  <main class="app">
+    <aside class="sidebar">
+      <a class="back" href="index.html">← Back to PRIME</a>
+
+      <div class="search-box">
+        <span>⌕</span>
+        <input id="search" type="search" placeholder="Search a sports space...">
+        <button id="clear" aria-label="Clear search">×</button>
+      </div>
+
+      <div class="filters">
+        <button class="filter" data-type="Football">● Football</button>
+        <button class="filter" data-type="Baseball">● Baseball</button>
+        <button class="filter" data-type="Multi-sport">● Multi-sport</button>
+        <button class="filter" data-type="Futsal / Indoor">● Futsal / Indoor</button>
+        <button class="filter" data-type="Fitness / Gym">● Fitness / Gym</button>
+        <button class="filter" data-type="Gymnastics">● Gymnastics</button>
+      </div>
+
+      <div class="result-bar">
+        <span id="count">7 SPACES</span>
+        <button id="showAll">Show all</button>
+      </div>
+
+      <section id="places" class="places"></section>
+    </aside>
+
+    <section class="map-area">
+      <header class="map-header">
+        <span class="brand-symbol">↗</span>
+        <span class="brand">PRIME</span>
+      </header>
+      <div id="map"></div>
+      <div id="mapMessage" class="map-message" hidden>
+        The map could not load. Check your internet connection.
+      </div>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="map.js"></script>
+</body>
+</html>
