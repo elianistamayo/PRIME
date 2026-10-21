@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -626,6 +625,18 @@
 
     const $ = (id) => document.getElementById(id);
 
+    // Anota si esta carga de la página viene de un regreso de Google
+    // o de un enlace de correo. Hay que hacerlo ANTES de crear el cliente
+    // de Supabase, porque el cliente borra esos datos de la dirección.
+    const isRecoveryLink =
+      window.location.hash.includes("type=recovery");
+
+    const cameFromAuthRedirect =
+      !isRecoveryLink && (
+        window.location.search.includes("code=") ||
+        window.location.hash.includes("access_token")
+      );
+
     const emailInput = $("email");
     const passwordInput = $("password");
     const confirmPasswordInput = $("confirmPassword");
@@ -738,7 +749,10 @@
           : "Create account";
     }
 
+    // Lleva a la página principal (index.html) y deja una nota
+    // para que ahí aparezca el aviso "You're in PRIME".
     function redirectToHome() {
+      try { sessionStorage.setItem("prime_welcome", "1"); } catch {}
       window.location.replace(homeURL());
     }
 
@@ -1003,13 +1017,8 @@
 
           if (error) throw error;
 
-          showMessage(
-            "Signed in successfully. Opening PRIME...",
-            "success"
-          );
-
-          // A short delay lets the success message appear.
-          window.setTimeout(redirectToHome, 500);
+          // Entra de una a la página principal.
+          redirectToHome();
           return;
         }
 
@@ -1037,12 +1046,8 @@
         }
 
         if (data.session) {
-          showMessage(
-            "Account created successfully. Opening PRIME...",
-            "success"
-          );
-
-          window.setTimeout(redirectToHome, 500);
+          // Cuenta creada y sesión abierta: directo a la página principal.
+          redirectToHome();
         } else {
           setMode("login");
 
@@ -1165,22 +1170,10 @@
         return;
       }
 
-      if (event === "SIGNED_IN" && !recoveryMode && session) {
-        const hasOAuthCode =
-          new URLSearchParams(window.location.search).has("code");
-
-        const hasAuthToken =
-          window.location.hash.includes("access_token");
-
-        if (hasOAuthCode || hasAuthToken) {
-          window.history.replaceState(
-            {},
-            document.title,
-            window.location.pathname
-          );
-
-          redirectToHome();
-        }
+      if (event === "SIGNED_IN" && session && !recoveryMode && cameFromAuthRedirect) {
+        showMessage("Signed in successfully. Opening PRIME...", "success");
+        window.history.replaceState({}, document.title, window.location.pathname);
+        redirectToHome();
       }
     });
 
@@ -1189,44 +1182,49 @@
     // ==========================================
 
     async function initializePage() {
-      const params = new URLSearchParams(window.location.search);
+      const query = new URLSearchParams(window.location.search);
+      const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
 
+      // Los errores pueden venir en la dirección o después del #
       const authError =
-        params.get("error_description") ||
-        params.get("error");
+        query.get("error_description") || query.get("error") ||
+        hash.get("error_description") || hash.get("error");
 
       if (authError) {
-        showMessage(
-          "Authentication failed: " +
-            authError.replace(/\+/g, " "),
-          "error"
-        );
+        showMessage("Authentication failed: " + authError.replace(/\+/g, " "), "error");
         return;
       }
 
-      // Supabase may return the recovery type in the URL hash.
-      if (window.location.hash.includes("type=recovery")) {
-        $("formDescription").textContent =
-          "Loading your password reset session...";
+      if (isRecoveryLink) {
+        $("formDescription").textContent = "Loading your password reset session...";
+        return;
       }
 
       try {
-        const { data, error } =
-          await supabaseClient.auth.getSession();
-
+        // getSession espera a que Supabase termine de procesar el regreso de Google
+        const { data, error } = await supabaseClient.auth.getSession();
         if (error) throw error;
 
-        // Do not redirect automatically while processing a recovery link.
-        if (
-          data.session &&
-          !window.location.hash.includes("type=recovery") &&
-          !params.has("code")
-        ) {
-          // Leave the page available so the user can sign in,
-          // switch accounts, or access password recovery.
+        console.log("PRIME auth:", {
+          cameFromAuthRedirect,
+          hasSession: !!data.session
+        });
+
+        if (data.session && cameFromAuthRedirect) {
+          redirectToHome();
+          return;
+        }
+
+        if (data.session) {
+          showMessage(
+            "You're already signed in as " + data.session.user.email +
+            ". Use “Back to PRIME” to continue.",
+            "success"
+          );
         }
       } catch (error) {
         console.error("Session initialization error:", error);
+        showMessage(friendlyError(error), "error");
       }
     }
 

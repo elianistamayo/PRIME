@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="booking-modal.css">
 </head>
 
 <body>
@@ -114,7 +114,7 @@
           <h3>La Chorrera Municipal Pool</h3>
           <small>La Chorrera, Panama West</small>
           <div class="bt"><strong>$25 <small>/ hour</small></strong><span>↗</span></div>
-          <button class="btn go">Book Court</button>
+          <button class="btn go" data-court="pool">Book Court</button>
         </div>
       </article>
 
@@ -124,7 +124,7 @@
           <h3>La Chorrera Volley Court</h3>
           <small>La Chorrera, Panama West</small>
           <div class="bt"><strong>$40 <small>/ hour</small></strong><span>↗</span></div>
-          <button class="btn go">Book Court</button>
+          <button class="btn go" data-court="volley">Book Court</button>
         </div>
       </article>
 
@@ -134,7 +134,7 @@
           <h3>La Chorrera Turf Pitch</h3>
           <small>La Chorrera, Panama West</small>
           <div class="bt"><strong>$28 <small>/ hour</small></strong><span>↗</span></div>
-          <button class="btn go">Book Court</button>
+          <button class="btn go" data-court="turf">Book Court</button>
         </div>
       </article>
     </div>
@@ -215,15 +215,36 @@
   </div>
 </footer>
 
+<!-- ===== COMMUNITY (con botón Read more y tarjetas de grupos) ===== -->
 <section id="community" class="cm">
   <div class="wrap">
-    <p class="lbl">Community</p>
-    <h2>Find your<br>next <span class="on">team.</span></h2>
+    <div class="cmh">
+      <div>
+        <p class="lbl">Community</p>
+        <h2>Find your<br>next <span class="on">team.</span></h2>
+        <p class="cmsub">Create groups, organize matches, and share your progress with people who train like you.</p>
+      </div>
+      <a href="community.html" class="cm-btn" id="readMore" role="button">Read more <span>⟶</span></a>
+    </div>
 
-    <div class="g3" style="margin-top:34px">
-      <div class="cd"><i></i><h3>Find players</h3><p>Discover athletes around you.</p></div>
-      <div class="cd"><i></i><h3>Join matches</h3><p>Find games and join the action.</p></div>
-      <div class="cd"><i></i><h3>Build your team</h3><p>Create your own sports community.</p></div>
+    <div class="cmg">
+      <div class="gc">
+        <div class="gh">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div><b>Los Halcones FC</b><small>14 members · Soccer 5</small></div>
+        </div>
+        <p>Looking for 2 players for Saturday's match in Costa del Este. Intermediate level.</p>
+        <div class="gf"><span>♥ 32</span><span>💬 8 comments</span><span>↗ Share</span></div>
+      </div>
+
+      <div class="gc">
+        <div class="gh">
+          <div class="dots"><i></i><i></i></div>
+          <div><b>Padel at Dawn</b><small>9 members · Padel</small></div>
+        </div>
+        <p>Recurring group every Tuesday 6:00 AM in Albrook. Recommended for beginner level.</p>
+        <div class="gf"><span>♥ 21</span><span>💬 5 comments</span><span>↗ Share</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -270,11 +291,11 @@
         <span class="k">TRAINING</span>
         <h3>4 routines to boost your endurance</h3>
         <small>Jul 28, 2026 · By Coach Ricardo</small>
-        <a href="#">→</a>
+        <a href="routines.html">→</a>
       </div>
     </article>
 
-    <a href="#" class="rm">Read More</a>
+    <a href="routines.html" class="rm">Read More</a>
   </div>
 </section>
 
@@ -355,6 +376,49 @@ document.querySelectorAll('#flt button').forEach(b => b.onclick = () => {
     c.style.display = (b.dataset.s === 'all' || c.dataset.s === b.dataset.s) ? '' : 'none'
   );
 });
+</script>
+
+<script>
+/* Read more -> community.html (respaldo por si algo bloquea el enlace) */
+document.getElementById('readMore').addEventListener('click', function(e){
+  e.preventDefault();
+  window.location.href = 'community.html';
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Sistema de reservas -->
+<script src="booking.js"></script>
+
+<!-- Aviso "You're in PRIME" después de iniciar sesión (no cambia el botón Sign In) -->
+<script>
+(() => {
+  try {
+    if (!sessionStorage.getItem("prime_welcome")) return;
+    sessionStorage.removeItem("prime_welcome");
+
+    // Nombre (si existe) tomado de la sesión guardada por Supabase
+    let name = "";
+    for (const store of [localStorage, sessionStorage]) {
+      for (let i = 0; i < store.length; i++) {
+        const k = store.key(i);
+        if (k && k.startsWith("sb-") && k.endsWith("-auth-token")) {
+          const u = JSON.parse(store.getItem(k) || "{}").user;
+          name = (u && u.user_metadata && (u.user_metadata.full_name || u.user_metadata.name)) || "";
+        }
+      }
+    }
+    name = name.replace(/[<>&"]/g, "");
+
+    const t = document.createElement("div");
+    t.className = "prime-toast";
+    t.setAttribute("role", "status");
+    t.innerHTML = "🎉 You're in <b>PRIME</b>" + (name ? ", " + name : "") + "!";
+    document.body.appendChild(t);
+    requestAnimationFrame(() => t.classList.add("show"));
+    setTimeout(() => { t.classList.remove("show"); setTimeout(() => t.remove(), 400); }, 4000);
+  } catch (e) {}
+})();
 </script>
 
 </body>

@@ -1,58 +1,58 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PRIME | Interactive Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interactive Map | PRIME</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <!-- Leaflet (librería del mapa) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
   <link rel="stylesheet" href="map.css">
 </head>
 <body>
-  <main class="app">
-    <aside class="sidebar">
-      <a class="back" href="index.html">← Back to PRIME</a>
 
-      <div class="search-box">
-        <span>⌕</span>
-        <input id="search" type="search" placeholder="Search a sports space...">
-        <button id="clear" aria-label="Clear search">×</button>
+<div class="app">
+
+  <!-- ===== LISTA ===== -->
+  <aside class="side" aria-label="Sports spaces">
+    <div class="top">
+      <a class="back" href="index.html#courts">← Back to PRIME</a>
+
+      <div class="search">
+        <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm9 16-4-4"/></svg>
+        <input id="q" type="search" placeholder="Search a sports space..." autocomplete="off" aria-label="Search a sports space">
+        <button id="clear" type="button" aria-label="Clear search">✕</button>
       </div>
+    </div>
 
-      <div class="filters">
-        <button class="filter" data-type="Football">● Football</button>
-        <button class="filter" data-type="Baseball">● Baseball</button>
-        <button class="filter" data-type="Multi-sport">● Multi-sport</button>
-        <button class="filter" data-type="Futsal / Indoor">● Futsal / Indoor</button>
-        <button class="filter" data-type="Fitness / Gym">● Fitness / Gym</button>
-        <button class="filter" data-type="Gymnastics">● Gymnastics</button>
-      </div>
+    <div class="pills-wrap">
+      <button class="arrow" id="pl" type="button" aria-label="Scroll filters left">‹</button>
+      <div class="pills" id="pills"></div>
+      <button class="arrow" id="pr" type="button" aria-label="Scroll filters right">›</button>
+    </div>
 
-      <div class="result-bar">
-        <span id="count">7 SPACES</span>
-        <button id="showAll">Show all</button>
-      </div>
+    <p class="count" id="count"></p>
+    <div class="list" id="list"></div>
+  </aside>
 
-      <section id="places" class="places"></section>
-    </aside>
+  <!-- ===== MAPA ===== -->
+  <main class="mapwrap">
+    <div id="map" aria-label="Map of sports spaces"></div>
 
-    <section class="map-area">
-      <header class="map-header">
-        <span class="brand-symbol">↗</span>
-        <span class="brand">PRIME</span>
-      </header>
-      <div id="map"></div>
-      <div id="mapMessage" class="map-message" hidden>
-        The map could not load. Check your internet connection.
-      </div>
-    </section>
+    <a class="logo" href="index.html" aria-label="PRIME home">
+      <img src="https://static.wixstatic.com/media/3323d5_215bb3c0d0a4429b87c15a1325314844~mv2.png/v1/crop/x_179,y_109,w_293,h_165/Prime-removebg-preview.png" alt="PRIME" onerror="this.replaceWith(document.createTextNode('PRIME'))">
+    </a>
+
+    <div class="legend" id="legend"></div>
   </main>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="map.js"></script>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="map.js"></script>
 </body>
 </html>

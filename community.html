@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>Community | PRIME</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="community.css">
+
+  <!-- Estilos exclusivos de la ventana de registro -->
+  <style>
+    .cp-reg-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-y: auto;
+      background: rgba(0, 0, 0, .76);
+      backdrop-filter: blur(9px);
+      -webkit-backdrop-filter: blur(9px);
+    }
+
+    .cp-reg-overlay.is-open {
+      display: flex;
+    }
+
+    .cp-reg-modal {
+      position: relative;
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      width: min(900px, 100%);
+      min-height: 490px;
+      margin: auto;
+      overflow: hidden;
+      border-radius: 16px;
+      background: #f7f7f5;
+      color: #111;
+      box-shadow: 0 25px 90px rgba(0, 0, 0, .45);
+      font-family: Inter, sans-serif;
+    }
+
+    .cp-reg-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 25px;
+      padding: 36px 28px;
+      color: white;
+      background:
+        radial-gradient(ellipse at 20% 15%, rgba(255, 90, 0, .25), transparent 55%),
+        #101012;
+    }
+
+    .cp-reg-badge {
+      display: inline-block;
+      padding: 8px 10px;
+      border: 1px solid #454545;
+      border-radius: 3px;
+      color: #ff5a00;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+
+    .cp-reg-left h2 {
+      margin: 22px 0 10px;
+      color: #ff5a00;
+      font-family: Anton, sans-serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 400;
+      line-height: 1.08;
+      overflow-wrap: anywhere;
+    }
+
+    .cp-reg-left p {
+      margin: 8px 0;
+      color: #c6c6c6;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .cp-reg-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .cp-reg-meta span {
+      padding: 9px 10px;
+      border: 1px solid #393939;
+      border-radius: 4px;
+      color: #eee;
+      font-size: 11px;
+    }
+
+    .cp-reg-right {
+      position: relative;
+      padding: 42px 34px 30px;
+    }
+
+    .cp-reg-close {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      display: grid;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: #111;
+      font-size: 29px;
+      cursor: pointer;
+    }
+
+    .cp-reg-close:hover {
+      background: #e7e7e7;
+    }
+
+    .cp-reg-eyebrow {
+      margin: 0 0 8px;
+      color: #ff5a00;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+
+    .cp-reg-right h2 {
+      margin: 0 0 12px;
+      color: #111;
+      font-family: Anton, sans-serif;
+      font-size: 36px;
+      font-weight: 400;
+      line-height: 1.15;
+    }
+
+    .cp-reg-description {
+      margin: 0 0 22px;
+      color: #626262;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .cp-reg-field {
+      display: block;
+      margin: 18px 0;
+    }
+
+    .cp-reg-field span {
+      display: block;
+      margin-bottom: 7px;
+      color: #555;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.3px;
+    }
+
+    .cp-reg-field input {
+      box-sizing: border-box;
+      display: block;
+      width: 100%;
+      padding: 11px 0;
+      border: 0;
+      border-bottom: 1px solid #c8c8c8;
+      border-radius: 0;
+      outline: none;
+      background: transparent;
+      color: #111;
+      font-family: Inter, sans-serif;
+      font-size: 14px;
+    }
+
+    .cp-reg-field input:focus {
+      border-bottom-color: #ff5a00;
+    }
+
+    .cp-reg-submit {
+      width: 100%;
+      margin-top: 10px;
+      padding: 16px;
+      border: 0;
+      border-radius: 3px;
+      background: #ff5a00;
+      color: #fff;
+      font-family: Inter, sans-serif;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 1.3px;
+      cursor: pointer;
+      transition: background .2s, transform .2s;
+    }
+
+    .cp-reg-submit:hover {
+      background: #e64f00;
+      transform: translateY(-1px);
+    }
+
+    .cp-reg-submit:disabled {
+      opacity: .65;
+      cursor: wait;
+      transform: none;
+    }
+
+    .cp-reg-note {
+      margin: 12px 0 0;
+      color: #777;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .cp-reg-note.ok {
+      color: #168a3f;
+      font-weight: 700;
+    }
+
+    .cp-reg-note.err {
+      color: #d92d20;
+      font-weight: 600;
+    }
+
+    body.cp-reg-lock {
+      overflow: hidden;
+    }
+
+    @media (max-width: 650px) {
+      .cp-reg-overlay {
+        align-items: flex-start;
+        padding: 12px;
+      }
+
+      .cp-reg-modal {
+        grid-template-columns: 1fr;
+        max-width: 440px;
+      }
+
+      .cp-reg-left {
+        gap: 15px;
+        padding: 23px;
+      }
+
+      .cp-reg-left h2 {
+        margin: 13px 0 7px;
+        font-size: 35px;
+      }
+
+      .cp-reg-right {
+        padding: 32px 23px 25px;
+      }
+
+      .cp-reg-right h2 {
+        font-size: 31px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cp-reg-submit {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="hd">
+  <a href="index.html#home">
+    <img src="https://static.wixstatic.com/media/3323d5_215bb3c0d0a4429b87c15a1325314844~mv2.png/v1/crop/x_179,y_109,w_293,h_165/fill/w_410,h_231,al_c,lg_1,q_85,enc_avif,quality_auto/Prime-removebg-preview.png" alt="PRIME">
+  </a>
+
+  <nav class="nav" id="nav">
+    <a href="index.html#home">Home</a>
+    <a href="index.html#courts">Courts</a>
+    <a href="index.html#community">Community</a>
+    <a href="index.html#blog">Blog</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+
+  <a href="signin.html" class="si">Sign In</a>
+  <button class="burger" id="bg" aria-label="Menu" aria-expanded="false">☰</button>
+</header>
+
+<main class="cp-page">
+
+  <!-- HERO -->
+  <section id="sports-tribe" class="tribe">
+    <div class="wrap">
+      <p class="lbl">Prime Community</p>
+      <h1>Find your<br><span>Sports tribe</span>.</h1>
+      <p class="d">Clubs, athletes, teams and contacts in one place. Connect with people who train like you in La Chorrera, Panama Oeste.</p>
+
+      <div class="cta">
+        <a href="#teams" class="cbtn">Explore Clubs</a>
+        <a href="#athletes" class="cbtn ghost">View Athletes</a>
+      </div>
+
+      <div class="stats">
+        <div><span class="num">+500</span><small>Active Users</small></div>
+        <div><span class="num">+12</span><small>Teams</small></div>
+        <div><span class="num">+50</span><small>Athletes</small></div>
+        <div><span class="num">+20</span><small>Courts</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAMS -->
+  <section id="teams" class="teams">
+    <div class="dash"></div>
+    <div class="wrap">
+      <p class="lbl">Teams · La Chorrera</p>
+      <h2>Join a team<br>near you.</h2>
+      <p class="sub">Courts, pitches and sports spaces across La Chorrera, Panama Oeste.<br>Filter by sport and find your spot.</p>
+
+      <div class="tf-pills" id="tflt">
+        <button type="button" class="on2" data-s="all">All Sports</button>
+        <button type="button" data-s="football">5-a-side Football</button>
+        <button type="button" data-s="padel">Padel</button>
+        <button type="button" data-s="basketball">Basketball</button>
+        <button type="button" data-s="volleyball">Volleyball</button>
+        <button type="button" data-s="tennis">Tennis</button>
+        <button type="button" data-s="athletics">Athletics</button>
+      </div>
+
+      <div class="tg" id="tg">
+
+        <article class="tm" data-s="football">
+          <div class="timg"><span class="sp">5-a-side Football</span><span class="rt">★ 4.8</span><b>EL COCO</b></div>
+          <div class="tin">
+            <h3>El Coco Court</h3>
+            <p class="loc">El Coco, La Chorrera, Panama Oeste</p>
+            <p class="ds">Artificial turf pitches with professional lighting and locker rooms.</p>
+            <div class="tf"><strong>$18 <small>/ hour</small></strong><span class="mem">45 members</span></div>
+            <a href="#contact" class="join">JOIN TEAM</a>
+          </div>
+        </article>
+
+        <article class="tm" data-s="padel">
+          <div class="timg"><span class="sp">Padel</span><span class="rt">★ 4.9</span><b>LA CHORRERA</b></div>
+          <div class="tin">
+            <h3>La Chorrera Padel Club</h3>
+            <p class="loc">La Chorrera, Panama Oeste</p>
+            <p class="ds">4 padel courts with tempered glass and a climate-controlled lounge.</p>
+            <div class="tf"><strong>$14 <small>/ hour</small></strong><span class="mem">36 members</span></div>
+            <a href="#contact" class="join">JOIN TEAM</a>
+          </div>
+        </article>
+
+        <article class="tm" data-s="basketball">
+          <div class="timg"><span class="sp">Basketball</span><span class="rt">★ 4.6</span><b>PUERTO CAIMITO</b></div>
+          <div class="tin">
+            <h3>Puerto Caimito Arena</h3>
+            <p class="loc">Puerto Caimito, La Chorrera, Panama Oeste</p>
+            <p class="ds">Multi-purpose hall with regulation backboards and bleachers for 120 people.</p>
+            <div class="tf"><strong>$12 <small>/ hour</small></strong><span class="mem">52 members</span></div>
+            <a href="#contact" class="join">JOIN TEAM</a>
+          </div>
+        </article>
+
+        <article class="tm" data-s="volleyball">
+          <div class="timg"><span class="sp">Volleyball</span><span class="rt">★ 4.7</span><b>PLAYA LEONA</b></div>
+          <div class="tin">
+            <h3>Playa Leona Sports Hub</h3>
+            <p class="loc">Playa Leona, La Chorrera, Panama Oeste</p>
+            <p class="ds">Volleyball court with regulation flooring and a professional adjustable net.</p>
+            <div class="tf"><strong>$15 <small>/ hour</small></strong><span class="mem">28 members</span></div>
+            <a href="#contact" class="join">JOIN TEAM</a>
+          </div>
+        </article>
+
+        <article class="tm" data-s="tennis">
+          <div class="timg"><span class="sp">Tennis</span><span class="rt">★ 4.8</span><b>FARALLÓN</b></div>
+          <div class="tin">
+            <h3>Farallón Tennis Club</h3>
+            <p class="loc">Farallón, Panama Oeste</p>
+            <p class="ds">Two hard courts with night lighting and a shaded seating area.</p>
+            <div class="tf"><strong>$16 <small>/ hour</small></strong><span class="mem">24 members</span></div>
+            <a href="#contact" class="join">JOIN TEAM</a>
+          </div>
+        </article>
+
+        <article class="tm" data-s="athletics">
+          <div class="timg"><span class="sp">Athletics</span><span class="rt">★ 4.5</span><b>VACAMONTE</b></div>
+          <div class="tin">
+            <h3>Vacamonte Athletic Track</h3>
+            <p class="loc">Vacamonte, Arraiján, Panama Oeste</p>
+            <p class="ds">400 m track with open training area and weekly running groups.</p>
+            <div class="tf"><strong>$8 <small>/ hour</small></strong><span class="mem">60 members</span></div>
+            <a href="#contact" class="join">JOIN TEAM</a>
+          </div>
+        </article>
+
+        <article class="tm" data-s="football">
+          <div class="timg"><span class="sp">5-a-side Football</span><span class="rt">★ 4.7</span><b>HURTADO</b></div>
+          <div class="tin">
+            <h3>Hurtado Turf Pitch</h3>
+            <p class="loc">Hurtado, La Chorrera, Panama Oeste</p>
+            <p class="ds">Synthetic turf pitch with lighting for evening matches.</p>
+            <div class="tf"><strong>$20 <small>/ hour</small></strong><span class="mem">38 members</span></div>
+            <a href="#contact" class="join">JOIN TEAM</a>
+          </div>
+        </article>
+
+        <article class="tm" data-s="basketball">
+          <div class="timg"><span class="sp">Basketball</span><span class="rt">★ 4.7</span><b>GUÁCIMO</b></div>
+          <div class="tin">
+            <h3>Guácimo Hoops Arena</h3>
+            <p class="loc">Guácimo, La Chorrera, Panama Oeste</p>
+            <p class="ds">Indoor court with regulation hoops and open pickup games.</p>
+            <div class="tf"><strong>$10 <small>/ hour</small></strong><span class="mem">41 members</span></div>
+            <a href="#contact" class="join">JOIN TEAM</a>
+          </div>
+        </article>
+
+        <article class="tm" data-s="padel">
+          <div class="timg"><span class="sp">Padel</span><span class="rt">★ 4.6</span><b>LOS ANDES</b></div>
+          <div class="tin">
+            <h3>Los Andes Padel Center</h3>
+            <p class="loc">Los Andes, La Chorrera, Panama Oeste</p>
+            <p class="ds">3 padel courts with glass walls and an equipment rental desk.</p>
+            <div class="tf"><strong>$13 <small>/ hour</small></strong><span class="mem">30 members</span></div>
+            <a href="#contact" class="join">JOIN TEAM</a>
+          </div>
+        </article>
+
+        <article class="tm" data-s="basketball">
+          <div class="timg"><span class="sp">Basketball</span><span class="rt">★ 4.5</span><b>BARRIO COLÓN</b></div>
+          <div class="tin">
+            <h3>Barrio Colón Court</h3>
+            <p class="loc">Barrio Colón, La Chorrera, Panama Oeste</p>
+            <p class="ds">Community court with fresh paint, lights and open schedules.</p>
+            <div class="tf"><strong>$9 <small>/ hour</small></strong><span class="mem">47 members</span></div>
+            <a href="#contact" class="join">JOIN TEAM</a>
+          </div>
+        </article>
+
+        <article class="tm" data-s="volleyball">
+          <div class="timg"><span class="sp">Volleyball</span><span class="rt">★ 4.6</span><b>EL TRÉBOL</b></div>
+          <div class="tin">
+            <h3>El Trébol Volley Court</h3>
+            <p class="loc">El Trébol, La Chorrera, Panama Oeste</p>
+            <p class="ds">Covered volleyball court with adjustable net and benches.</p>
+            <div class="tf"><strong>$11 <small>/ hour</small></strong><span class="mem">26 members</span></div>
+            <a href="#contact" class="join">JOIN TEAM</a>
+          </div>
+        </article>
+
+        <article class="tm" data-s="athletics">
+          <div class="timg"><span class="sp">Athletics</span><span class="rt">★ 4.4</span><b>CARDONA</b></div>
+          <div class="tin">
+            <h3>Cardona Running Track</h3>
+            <p class="loc">Cardona, La Chorrera, Panama Oeste</p>
+            <p class="ds">Outdoor track and trails for 5K to 10K training sessions.</p>
+            <div class="tf"><strong>$7 <small>/ hour</small></strong><span class="mem">55 members</span></div>
+            <a href="#contact" class="join">JOIN TEAM</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE ACTIVITY TICKER -->
+  <section id="live-bar" class="live" aria-label="Live activity">
+    <div class="track" id="track">
+      <div class="set">
+        <span class="ti"><b>Luis Torres</b><em>Open court tonight</em><u>Basketball</u></span>
+        <span class="ti"><b>Andrea Vega</b><em>Available now</em><u>Padel</u></span>
+        <span class="ti"><b>Mariana Gómez</b><em>Match at 8PM</em><u>5-a-side</u></span>
+        <span class="ti"><b>Diego Fábrega</b><em>Available now</em><u>Football</u></span>
+        <span class="ti"><b>Camila Ureña</b><em>Session ends 12PM</em><u>Padel</u></span>
+        <span class="ti"><b>Ricardo Solís</b><em>Morning session</em><u>Athletics</u></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ATHLETES -->
+  <section id="athletes" class="ath">
+    <div class="wrap">
+      <p class="lbl">Athletes</p>
+      <h2>Meet the people<br>who live <span>the game.</span></h2>
+      <p class="sub">Verified players and coaches with real stats. Connect, learn and level up with the best in Panama.</p>
+
+      <div class="ag">
+
+        <article class="at">
+          <div class="aimg"><span class="lv">Advanced</span><div class="ph">DF</div><span class="rtg">★ 4.9 · Football</span></div>
+          <div class="ain">
+            <h3>Diego Fábrega</h3>
+            <p>8 years coaching youth teams. Specialist in individual technique.</p>
+            <div class="st"><div><b>124</b>Matches</div><div><b>38</b>Goals</div><div><b>5</b>Trophies</div></div>
+            <a href="#contact" class="vp">View profile</a>
+          </div>
+        </article>
+
+        <article class="at">
+          <div class="aimg"><span class="lv">Professional</span><div class="ph">CU</div><span class="rtg">★ 5 · Padel</span></div>
+          <div class="ain">
+            <h3>Camila Ureña</h3>
+            <p>Former professional padel player. Personalized lessons for all levels.</p>
+            <div class="st"><div><b>98</b>Matches</div><div><b>72</b>Wins</div><div><b>8</b>Trophies</div></div>
+            <a href="#contact" class="vp">View profile</a>
+          </div>
+        </article>
+
+        <article class="at">
+          <div class="aimg"><span class="lv">Coach</span><div class="ph">RS</div><span class="rtg">★ 4.8 · Athletics</span></div>
+          <div class="ain">
+            <h3>Ricardo Solís</h3>
+            <p>Strength &amp; conditioning coach and running guide. Progressive plans from 5K to 21K.</p>
+            <div class="st"><div><b>45</b>Races</div><div><b>1:32:10</b>PR</div><div><b>3</b>Trophies</div></div>
+            <a href="#contact" class="vp">View profile</a>
+          </div>
+        </article>
+
+        <article class="at">
+          <div class="aimg"><span class="lv">Intermediate</span><div class="ph">AV</div><span class="rtg">★ 4.7 · Padel</span></div>
+          <div class="ain">
+            <h3>Andrea Vega</h3>
+            <p>Weekend padel player looking for partners and friendly matches.</p>
+            <div class="st"><div><b>36</b>Matches</div><div><b>21</b>Wins</div><div><b>2</b>Trophies</div></div>
+            <a href="#contact" class="vp">View profile</a>
+          </div>
+        </article>
+
+        <article class="at">
+          <div class="aimg"><span class="lv">Advanced</span><div class="ph">LT</div><span class="rtg">★ 4.8 · Basketball</span></div>
+          <div class="ain">
+            <h3>Luis Torres</h3>
+            <p>Match organizer. Runs open games and pickup tournaments every week.</p>
+            <div class="st"><div><b>88</b>Matches</div><div><b>52</b>Wins</div><div><b>4</b>Trophies</div></div>
+            <a href="#contact" class="vp">View profile</a>
+          </div>
+        </article>
+
+        <article class="at">
+          <div class="aimg"><span class="lv">Intermediate</span><div class="ph">MG</div><span class="rtg">★ 4.7 · Football</span></div>
+          <div class="ain">
+            <h3>Mariana Gómez</h3>
+            <p>5-a-side player and team captain. Always looking for new teammates.</p>
+            <div class="st"><div><b>57</b>Matches</div><div><b>19</b>Goals</div><div><b>2</b>Trophies</div></div>
+            <a href="#contact" class="vp">View profile</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="ct">
+    <div class="wrap two">
+      <div>
+        <h2>Let's talk?</h2>
+
+        <form id="contactForm">
+          <label class="fl" for="contactName">NAME</label>
+          <input id="contactName" name="name" placeholder="Your full name">
+
+          <label class="fl" for="contactEmail">EMAIL</label>
+          <input id="contactEmail" name="email" type="email" placeholder="you@example.com">
+
+          <label class="fl" for="contactMessage">MESSAGE</label>
+          <textarea id="contactMessage" name="message" placeholder="Tell us how we can help"></textarea>
+
+          <button class="btn" type="submit" style="margin-top:16px">Send message</button>
+          <p id="contactNotice" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <div class="faq" style="padding-top:70px">
+        <div class="q open">
+          <button type="button">How do I join a club or team?<b></b></button>
+          <p>Pick a sport, choose a team near you and press "Join team". The organizer will confirm your spot.</p>
+        </div>
+
+        <div class="q">
+          <button type="button">Are athletes verified?<b></b></button>
+          <p>Coaches and athletes with a badge have verified their identity and certifications.</p>
+        </div>
+
+        <div class="q">
+          <button type="button">Can I create my own team?<b></b></button>
+          <p>Yes. Sign in, open Community and create a group. Invite friends and set your match schedule.</p>
+        </div>
+
+        <div class="q">
+          <button type="button">Is there a cost to join the community?<b></b></button>
+          <p>Joining is free. You only pay when you book a court or a coaching session.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div>
+        <div class="lg">PRIME<i>.</i></div>
+        <p>Connect, train, and play. The platform that unites the sports community.</p>
+        <div class="so"><span>IG</span><span>FB</span><span>TT</span></div>
+      </div>
+
+      <div>
+        <h4>NAVIGATION</h4>
+        <ul>
+          <li><a href="#teams">Teams</a></li>
+          <li><a href="#athletes">Athletes</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>COMMUNITY</h4>
+        <ul>
+          <li>Groups</li>
+          <li>Events</li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>LEGAL</h4>
+        <ul>
+          <li>Privacy Policy</li>
+          <li>Terms &amp; Conditions</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cp">© 2026 Prime. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- REGISTRATION MODAL -->
+<div
+  class="cp-reg-overlay"
+  id="registrationOverlay"
+  aria-hidden="true"
+>
+  <section
+    class="cp-reg-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="registrationTitle"
+  >
+    <div class="cp-reg-left">
+      <div>
+        <span class="cp-reg-badge" id="regSport">SPORT REGISTRATION</span>
+        <h2 id="registrationTitle">EL COCO</h2>
+        <p id="regCourt">El Coco Court</p>
+      </div>
+
+      <div>
+        <p id="regLocation">El Coco, La Chorrera, Panama Oeste</p>
+        <div class="cp-reg-meta">
+          <span id="regRating">★ 4.8</span>
+          <span id="regMembers">45 members</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cp-reg-right">
+      <button
+        type="button"
+        class="cp-reg-close"
+        id="closeRegistration"
+        aria-label="Close registration"
+      >×</button>
+
+      <p class="cp-reg-eyebrow">PRIME COMMUNITY</p>
+      <h2>Claim your spot.</h2>
+      <p class="cp-reg-description" id="regDescription">
+        Register your interest in joining this team.
+      </p>
+
+      <form id="registrationForm">
+        <label class="cp-reg-field" for="regFullName">
+          <span>FULL NAME</span>
+          <input
+            id="regFullName"
+            name="fullName"
+            type="text"
+            placeholder="Your full name"
+            autocomplete="name"
+            maxlength="100"
+            required
+          >
+        </label>
+
+        <label class="cp-reg-field" for="regEmail">
+          <span>EMAIL ADDRESS</span>
+          <input
+            id="regEmail"
+            name="email"
+            type="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+            maxlength="254"
+            required
+          >
+        </label>
+
+        <label class="cp-reg-field" for="regPhone">
+          <span>PHONE NUMBER</span>
+          <input
+            id="regPhone"
+            name="phone"
+            type="tel"
+            placeholder="+507 6000 0000"
+            autocomplete="tel"
+            maxlength="20"
+            required
+          >
+        </label>
+
+        <button type="submit" class="cp-reg-submit" id="regSubmit">
+          CLAIM YOUR SPOT →
+        </button>
+
+        <p class="cp-reg-note" id="regNotice" aria-live="polite">
+          Complete your details to register your interest.
+        </p>
+      </form>
+    </div>
+  </section>
+</div>
+
+<!-- Supabase: guarda los registros de "Claim your spot" -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  /* MOBILE MENU */
+  const burger = document.getElementById("bg");
+  const nav = document.getElementById("nav");
+
+  if (burger && nav) {
+    burger.addEventListener("click", () => {
+      const isOpen = nav.classList.toggle("show");
+      burger.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    nav.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        nav.classList.remove("show");
+        burger.setAttribute("aria-expanded", "false");
+      });
+    });
+  }
+
+  /* FAQ ACCORDION */
+  document.querySelectorAll(".q button").forEach(button => {
+    button.addEventListener("click", () => {
+      button.parentElement.classList.toggle("open");
+    });
+  });
+
+  /* TEAM SPORT FILTER */
+  const filterButtons = document.querySelectorAll("#tflt button");
+  const teamCards = document.querySelectorAll("#tg .tm");
+
+  filterButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      filterButtons.forEach(item => item.classList.remove("on2"));
+      button.classList.add("on2");
+
+      const selectedSport = button.dataset.s;
+
+      teamCards.forEach(card => {
+        const matches =
+          selectedSport === "all" ||
+          card.dataset.s === selectedSport;
+
+        card.style.display = matches ? "" : "none";
+      });
+    });
+  });
+
+  /* LIVE ACTIVITY TICKER */
+  const track = document.getElementById("track");
+
+  if (track && track.firstElementChild) {
+    const originalSet = track.firstElementChild;
+
+    for (let i = 0; i < 3; i++) {
+      const clone = originalSet.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      track.appendChild(clone);
+    }
+  }
+
+  /* ==========================================
+     SUPABASE CONNECTION (registrations)
+     ========================================== */
+  const SUPABASE_URL = "https://wpxubughlgccoazfbazh.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_mUWo-fARNnfj4mFQ4bpoGQ_Cigsm_A-";
+
+  // Esta página solo guarda registros; no maneja sesiones.
+  const db = window.supabase
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+        auth: {
+          persistSession: false,
+          autoRefreshToken: false,
+          detectSessionInUrl: false
+        }
+      })
+    : null;
+
+  /* REGISTRATION MODAL */
+  const overlay = document.getElementById("registrationOverlay");
+  const closeButton = document.getElementById("closeRegistration");
+  const registrationForm = document.getElementById("registrationForm");
+  const submitButton = document.getElementById("regSubmit");
+
+  const sportElement = document.getElementById("regSport");
+  const titleElement = document.getElementById("registrationTitle");
+  const courtElement = document.getElementById("regCourt");
+  const locationElement = document.getElementById("regLocation");
+  const ratingElement = document.getElementById("regRating");
+  const membersElement = document.getElementById("regMembers");
+  const descriptionElement = document.getElementById("regDescription");
+  const noticeElement = document.getElementById("regNotice");
+
+  const DEFAULT_NOTICE = "Complete your details to register your interest.";
+  const SUBMIT_LABEL = "CLAIM YOUR SPOT →";
+
+  let previousFocus = null;
+  let sending = false;
+  let closeTimer = null;
+
+  function setNotice(text, type = "") {
+    noticeElement.textContent = text;
+    noticeElement.className = "cp-reg-note" + (type ? " " + type : "");
+  }
+
+  function setSending(value) {
+    sending = value;
+    submitButton.disabled = value;
+    submitButton.textContent = value ? "SENDING..." : SUBMIT_LABEL;
+  }
+
+  function openRegistration(card) {
+    if (!card || !overlay) return;
+
+    clearTimeout(closeTimer);
+
+    const sport = card.querySelector(".timg .sp");
+    const teamName = card.querySelector(".timg b");
+    const court = card.querySelector(".tin h3");
+    const location = card.querySelector(".tin .loc");
+    const rating = card.querySelector(".timg .rt");
+    const members = card.querySelector(".mem");
+    const description = card.querySelector(".tin .ds");
+
+    sportElement.textContent =
+      sport?.textContent.trim() || "SPORT";
+
+    titleElement.textContent =
+      teamName?.textContent.trim() || "JOIN A TEAM";
+
+    courtElement.textContent =
+      court?.textContent.trim() || "";
+
+    locationElement.textContent =
+      location?.textContent.trim() || "";
+
+    ratingElement.textContent =
+      rating?.textContent.trim() || "";
+
+    membersElement.textContent =
+      members?.textContent.trim() || "";
+
+    descriptionElement.textContent =
+      description?.textContent.trim() ||
+      "Register your interest in joining this team.";
+
+    registrationForm.reset();
+    setSending(false);
+    setNotice(DEFAULT_NOTICE);
+
+    previousFocus = document.activeElement;
+
+    overlay.classList.add("is-open");
+    overlay.setAttribute("aria-hidden", "false");
+    document.body.classList.add("cp-reg-lock");
+
+    document.getElementById("regFullName").focus();
+  }
+
+  function closeRegistration() {
+    if (!overlay) return;
+
+    clearTimeout(closeTimer);
+
+    overlay.classList.remove("is-open");
+    overlay.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("cp-reg-lock");
+
+    if (previousFocus && typeof previousFocus.focus === "function") {
+      previousFocus.focus();
+    }
+  }
+
+  /* ALL JOIN TEAM BUTTONS */
+  document.querySelectorAll("#tg .join").forEach(button => {
+    button.addEventListener("click", event => {
+      event.preventDefault();
+
+      const card = button.closest(".tm");
+      openRegistration(card);
+    });
+  });
+
+  /* CLOSE BUTTON */
+  closeButton.addEventListener("click", closeRegistration);
+
+  /* CLOSE BY CLICKING OUTSIDE THE MODAL */
+  overlay.addEventListener("click", event => {
+    if (event.target === overlay) {
+      closeRegistration();
+    }
+  });
+
+  /* CLOSE WITH ESCAPE */
+  document.addEventListener("keydown", event => {
+    if (
+      event.key === "Escape" &&
+      overlay.classList.contains("is-open")
+    ) {
+      closeRegistration();
+    }
+  });
+
+  /* REGISTRATION FORM → SUPABASE */
+  registrationForm.addEventListener("submit", async event => {
+    event.preventDefault();
+
+    if (sending) return;
+    if (!registrationForm.reportValidity()) return;
+
+    const fullName = document.getElementById("regFullName").value.trim();
+    const email = document.getElementById("regEmail").value.trim().toLowerCase();
+    const phone = document.getElementById("regPhone").value.trim();
+
+    if (fullName.length < 2) {
+      setNotice("Please enter your full name.", "err");
+      return;
+    }
+
+    if (phone.length < 7 || phone.length > 20) {
+      setNotice("Please enter a valid phone number (7 to 20 characters).", "err");
+      return;
+    }
+
+    if (!db) {
+      setNotice("Could not connect. Check your internet and reload the page.", "err");
+      return;
+    }
+
+    setSending(true);
+    setNotice("Saving your spot...");
+
+    try {
+      const { error } = await db.from("team_signups").insert({
+        team: titleElement.textContent.trim(),
+        sport: sportElement.textContent.trim(),
+        full_name: fullName,
+        email: email,
+        phone: phone
+      });
+
+      if (error) {
+        // 23505 = ya está registrado en este equipo con ese correo
+        if (error.code === "23505") {
+          setNotice("You're already signed up for this team with that email.", "err");
+        } else if (error.code === "23514") {
+          setNotice("Please check your details and try again.", "err");
+        } else {
+          console.error("Registration error:", error);
+          setNotice("Something went wrong. Please try again in a moment.", "err");
+        }
+        setSending(false);
+        return;
+      }
+
+      registrationForm.reset();
+      setNotice("You're in! Your spot at " + titleElement.textContent.trim() + " is saved. The organizer will contact you soon.", "ok");
+      submitButton.textContent = "DONE ✓";
+
+      closeTimer = setTimeout(() => {
+        closeRegistration();
+        setSending(false);
+      }, 3200);
+    } catch (error) {
+      console.error("Registration error:", error);
+      setNotice("Could not connect. Check your internet and try again.", "err");
+      setSending(false);
+    }
+  });
+
+  /* CONTACT FORM DEMO */
+  const contactForm = document.getElementById("contactForm");
+  const contactNotice = document.getElementById("contactNotice");
+
+  if (contactForm) {
+    contactForm.addEventListener("submit", event => {
+      event.preventDefault();
+
+      contactNotice.textContent =
+        "The contact form is not connected to a message service yet.";
+    });
+  }
+
+});
+</script>
+
+</body>
+</html>
