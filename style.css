@@ -77,7 +77,7 @@ h1,h2,.num{font-family:Anton,sans-serif;font-weight:400;text-transform:uppercase
 .blog{padding:90px 0;text-align:center}
 .blog h2{font:800 clamp(28px,5vw,40px) Inter;text-transform:none;letter-spacing:-.5px;margin-bottom:34px}
 .bc{max-width:330px;margin:auto;text-align:left;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.1)}
-.bc .im{height:210px;background:url("images/blog.jpg") center/cover}
+.bc .im{height:210px;background:url("blog.jpg") center/cover}
 .bc .in{padding:20px}.bc .k{color:var(--o);font-weight:700;font-size:10px;letter-spacing:1px}
 .bc h3{font-size:16px;margin:8px 0 4px}.bc small{color:#888;font-size:11px}
 .bc a{display:block;margin-top:18px}
