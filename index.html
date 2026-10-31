@@ -421,5 +421,67 @@ document.getElementById('readMore').addEventListener('click', function(e){
 })();
 </script>
 
+<!-- Animaciones PRIME -->
+<script>
+/* ============ PRIME · animaciones ============ */
+(() => {
+  const doc = document.documentElement;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  doc.classList.add('js');
+
+  /* Reveal al hacer scroll (con escalonado en grupos) */
+  const groups = ['.g3', '.cmg', '.pg', '.bar', '.stats', '.mini', '.two'];
+  const single = ['.prof .lbl', '.prof h2', '.prof .sub', '.courts .ch', '.flt', '.cm .cmh',
+                  '.imp .lbl', '.imp h2', '.blog .lbl', '.blog h2', '.bc', '.rm', '.ct h2', '.ct .lbl', '.sh', '.sign h2'];
+  single.forEach(sel => document.querySelectorAll(sel).forEach(el => el.classList.add('rv')));
+  groups.forEach(sel => document.querySelectorAll(sel).forEach(g => {
+    [...g.children].forEach((c, i) => { c.classList.add('rv'); c.style.setProperty('--d', (i * 0.12) + 's'); });
+  }));
+  document.querySelectorAll('.faq .q').forEach((q, i) => { q.classList.add('rv'); q.style.setProperty('--d', (i * 0.1) + 's'); });
+
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+  /* Contadores animados (+30, +500, ...) */
+  const count = el => {
+    const txt = el.textContent.trim();
+    const m = txt.match(/^(\D*)(\d+)(\D*)$/);
+    if (!m || reduce) return;
+    const [, pre, n, suf] = m, end = +n, t0 = performance.now(), dur = 1600;
+    const tick = t => {
+      const p = Math.min((t - t0) / dur, 1), e = 1 - Math.pow(1 - p, 3);
+      el.textContent = pre + Math.round(end * e) + suf;
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    el.textContent = pre + '0' + suf;
+    requestAnimationFrame(tick);
+  };
+  const co = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { count(e.target); co.unobserve(e.target); }
+  }), { threshold: .6 });
+  document.querySelectorAll('.stats .num, .bar .num, .mini b').forEach(el => co.observe(el));
+
+  if (reduce) return;
+
+  /* Tilt 3D suave en tarjetas (solo con mouse) */
+  if (matchMedia('(hover:hover)').matches) {
+    document.querySelectorAll('.cc, .gc, .tc, .pc').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - .5;
+        const y = (e.clientY - r.top) / r.height - .5;
+        card.style.transform = `translateY(-8px) perspective(900px) rotateX(${-y * 5}deg) rotateY(${x * 6}deg)`;
+      });
+      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+    });
+  }
+
+})();
+
+</script>
+
 </body>
 </html>
