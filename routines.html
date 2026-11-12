@@ -4,35 +4,53 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Routines | PRIME</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="routines.css">
 </head>
 <body>
 
-<!-- ============ 1. HERO ============ -->
+<!-- TOP NAVIGATION -->
 <header class="top">
   <a class="logo" href="index.html" aria-label="PRIME home">
     <img src="https://static.wixstatic.com/media/3323d5_215bb3c0d0a4429b87c15a1325314844~mv2.png/v1/crop/x_179,y_109,w_293,h_165/fill/w_410,h_231,al_c,lg_1,q_85,enc_avif,quality_auto/Prime-removebg-preview.png" alt="PRIME" onerror="this.replaceWith(document.createTextNode('PRIME'))">
   </a>
+
+  <nav class="top-nav" aria-label="Main navigation">
+    <a class="nav-link nav-home" href="index.html">Home</a>
+    <a class="nav-link" href="#base">Base Routines</a>
+    <a class="nav-link" href="#routines">Routines</a>
+    <a class="nav-link" href="#customize">Customize</a>
+  </nav>
 </header>
 
-<section class="hero" id="home">
-  <div class="wrap">
-    <span class="pill">🔥 Personal Training</span>
-    <h1 class="h">Build your<br><span class="o">best body</span></h1>
-    <p class="d">Customize your workouts, track your progress, and train smarter. Edit routines to match your goals, schedule, and budget.</p>
-    <div class="cta">
-      <a class="btn" href="#base">💪 View Routines</a>
-      <a class="btn dark" href="#customize">🎯 Customize Plan</a>
+<!-- 1. HERO -->
+<section class="hero" id="home" aria-roledescription="carousel" aria-label="PRIME">
+  <div class="hx-bg" id="hxBg" aria-hidden="true"></div>
+  <div class="hx-shade"></div>
+
+  <div class="hx-in">
+    <span class="hx-eyebrow">Personal Training</span>
+    <h1 class="hx-h1">Build your<br><span>best body</span></h1>
+    <p class="hx-p">Entrenamiento personal y rutinas probadas para atletas que quieren resultados reales: fuerza, resistencia y un plan que se adapta a tu ritmo.</p>
+
+    <div class="hx-cta">
+      <a class="hx-btn" href="#base">View Routines</a>
+      <a class="hx-btn hx-btn--o" href="#customize">Customize Plan</a>
     </div>
-    <div class="stats">
+
+    <div class="hx-stats">
       <div><b>6+</b><small>Base Routines</small></div>
       <div><b>100%</b><small>Editable</small></div>
       <div><b>24/7</b><small>Your Pace</small></div>
     </div>
   </div>
+
+  <div class="hx-dots" id="hxDots" role="group" aria-label="Photographs"></div>
 </section>
 
-<!-- ============ 2. CHOOSE YOUR BASE ROUTINE ============ -->
+<!-- 2. CHOOSE YOUR BASE ROUTINE -->
 <section class="base" id="base">
   <div class="wrap">
     <div class="sh">
@@ -40,6 +58,7 @@
       <h2 class="h">Choose your <span class="o">base routine</span></h2>
       <p>Explore ready-to-go routines. Click any one to preview it, then add it to your plan with one tap.</p>
     </div>
+
     <div class="bg">
       <div class="rl" id="rl"></div>
       <div class="dp" id="dp"></div>
@@ -47,23 +66,25 @@
   </div>
 </section>
 
-<!-- ============ 3. CATALOG ============ -->
+<!-- 3. CATALOG -->
 <section class="cat" id="routines">
   <div class="wrap">
-    <div class="ch">a
+    <div class="ch">
       <div>
         <span class="pill">💪 Routines</span>
         <h2 class="h">Base &amp; Custom <span class="o">Routines</span></h2>
         <p class="sub">Pick a base routine and edit it to fit your needs — or create your own from scratch.</p>
       </div>
+
       <button class="btn" id="newBtn">+ New Routine</button>
     </div>
+
     <div class="fl" id="fl"></div>
     <div class="cg" id="cg"></div>
   </div>
 </section>
 
-<!-- ============ 4. CUSTOMIZE YOUR TRAINING ============ -->
+<!-- 4. CUSTOMIZE YOUR TRAINING -->
 <section class="cu" id="customize">
   <div class="sh">
     <span class="pill">🎯 Personalize</span>
@@ -82,9 +103,16 @@
 
     <div class="cd">
       <h3><i>💰</i>Budget &amp; Economy</h3>
-      <div class="bud"><span class="lb">Monthly Budget</span><b id="bv">$50</b></div>
+      <div class="bud">
+        <span class="lb">Monthly Budget</span>
+        <b id="bv">$50</b>
+      </div>
       <input type="range" id="budget" min="0" max="500" step="10" value="50" aria-label="Monthly budget">
-      <div class="sc"><span>$0</span><span>$250</span><span>$500</span></div>
+      <div class="sc">
+        <span>$0</span>
+        <span>$250</span>
+        <span>$500</span>
+      </div>
     </div>
 
     <div class="cd">
@@ -107,25 +135,48 @@
   </div>
 </section>
 
-<!-- modal crear/editar -->
+<!-- CREATE / EDIT ROUTINE MODAL -->
 <div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="mt">
   <div class="md">
     <h3 class="h" id="mt">New Routine</h3>
+
     <label for="f-name">Name</label>
     <input id="f-name" maxlength="40" placeholder="e.g. Sunday Power Session">
+
     <label for="f-desc">Description</label>
     <input id="f-desc" maxlength="120" placeholder="What is this routine about?">
+
     <div class="r2">
-      <div><label for="f-cat">Category</label>
-        <select id="f-cat"><option>Full Body</option><option>Upper Body</option><option>Lower Body</option><option>Core</option><option>Cardio</option></select></div>
-      <div><label for="f-lvl">Level</label>
-        <select id="f-lvl"><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></div>
-      <div><label for="f-min">Minutes</label>
-        <input id="f-min" type="number" min="5" max="180" value="30"></div>
+      <div>
+        <label for="f-cat">Category</label>
+        <select id="f-cat">
+          <option>Full Body</option>
+          <option>Upper Body</option>
+          <option>Lower Body</option>
+          <option>Core</option>
+          <option>Cardio</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="f-lvl">Level</label>
+        <select id="f-lvl">
+          <option>Beginner</option>
+          <option>Intermediate</option>
+          <option>Advanced</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="f-min">Minutes</label>
+        <input id="f-min" type="number" min="5" max="180" value="30">
+      </div>
     </div>
+
     <label for="f-ex">Exercises</label>
     <textarea id="f-ex" placeholder="Squats — 4×12&#10;Push-ups — 3×15"></textarea>
     <div class="hint">One per line, written as <b>Name — sets×reps</b>.</div>
+
     <div class="ma">
       <button class="btn" id="m-save">Save</button>
       <button class="btn gh" id="m-cancel">Cancel</button>
@@ -136,140 +187,494 @@
 
 <div class="ts" id="ts" role="status" aria-live="polite"></div>
 
+<!-- HERO BACKGROUND CAROUSEL -->
+<script>
+(() => {
+  const ID_OK = '6af3a1453044e4a2ac5db6e0';
+  const base = 'https://media.base44.com/images/public/';
+  const u = (id, file) => [
+    base + id + '/' + file,
+    base + ID_OK + '/' + file
+  ];
+
+  const SLIDES = [
+    { name: 'Running', urls: u('6af3a1453044e2ac5db6e0', 'a1c4e5a76_generated_image.png') },
+    { name: 'Basketball', urls: u('6af3a1453044e4a2ac5db6e0', '2a083feb8_generated_image.png') },
+    { name: 'Football', urls: u('6af3a1453044e2ac5db6e0', 'cc578eaba_generated_image.png') },
+    { name: 'Gym', urls: u('6af3a1453044e2ac5db6e0', 'b70568dd4_generated_image.png') }
+  ];
+
+  const EVERY = 3200;
+  const bg = document.getElementById('hxBg');
+  const dotsBox = document.getElementById('hxDots');
+  const items = SLIDES.map((s, i) => ({
+    ...s, i, ok: false, el: null, dot: null
+  }));
+
+  let cur = -1;
+  let timer = null;
+  let started = false;
+
+  items.forEach(it => {
+    const d = document.createElement('button');
+    d.className = 'hx-dot';
+    d.type = 'button';
+    d.hidden = true;
+    d.setAttribute('aria-label', 'Show ' + it.name + ' image');
+    d.addEventListener('click', () => {
+      show(it.i);
+      restart();
+    });
+    dotsBox.appendChild(d);
+    it.dot = d;
+  });
+
+  const probe = url => new Promise((res, rej) => {
+    const im = new Image();
+    im.onload = () => res(url);
+    im.onerror = rej;
+    im.src = url;
+  });
+
+  const firstThatLoads = urls => urls.reduce(
+    (p, url) => p.catch(() => probe(url)),
+    Promise.reject()
+  );
+
+  function add(it, url) {
+    const el = document.createElement('div');
+    el.className = 'hx-slide';
+    el.style.backgroundImage = 'url("' + url + '")';
+    bg.appendChild(el);
+    it.el = el;
+    it.ok = true;
+    it.dot.hidden = false;
+  }
+
+  const loads = items.map(it =>
+    firstThatLoads(it.urls)
+      .then(url => add(it, url))
+      .catch(() => {})
+  );
+
+  function show(i) {
+    if (!items[i] || !items[i].ok || i === cur) return;
+
+    items.forEach(it => {
+      if (it.el) it.el.classList.toggle('is-on', it.i === i);
+      if (it.dot) it.dot.classList.toggle('is-on', it.i === i);
+    });
+
+    cur = i;
+  }
+
+  function next() {
+    for (let k = 1; k <= items.length; k++) {
+      const j = (cur + k) % items.length;
+      if (items[j].ok) {
+        show(j);
+        return;
+      }
+    }
+  }
+
+  function restart() {
+    clearInterval(timer);
+    if (!document.hidden) {
+      timer = setInterval(next, EVERY);
+    }
+  }
+
+  Promise.race([
+    loads[0],
+    new Promise(r => setTimeout(r, 4000))
+  ]).then(() => {
+    const first = items.find(it => it.ok);
+    if (first) show(first.i);
+    started = true;
+    restart();
+  });
+
+  Promise.all(loads).then(() => {
+    if (started && cur < 0) {
+      const first = items.find(it => it.ok);
+      if (first) show(first.i);
+    }
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (started) restart();
+  });
+})();
+</script>
+
+<!-- ROUTINES FUNCTIONALITY -->
 <script>
 (() => {
   const $ = s => document.querySelector(s);
-  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-  /* ---------- storage ---------- */
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#39;'
+  }[c]));
+
+  /* STORAGE */
   const store = {
-    get(k, d){ try { const v = localStorage.getItem('prime_' + k); return v ? JSON.parse(v) : d; } catch(e){ return d; } },
-    set(k, v){ try { localStorage.setItem('prime_' + k, JSON.stringify(v)); } catch(e){} }
+    get(k, d) {
+      try {
+        const v = localStorage.getItem('prime_' + k);
+        return v ? JSON.parse(v) : d;
+      } catch(e) {
+        return d;
+      }
+    },
+    set(k, v) {
+      try {
+        localStorage.setItem('prime_' + k, JSON.stringify(v));
+      } catch(e) {}
+    }
   };
 
-  /* ---------- datos ---------- */
+  /* BASE ROUTINES */
   const base = [
-    {id:'full', emoji:'💪', name:'Full Body Blast', desc:'A complete full-body workout targeting all major muscle groups for maximum results.', cat:'Full Body', lvl:'Intermediate', min:45, ex:[['Squats','4×12'],['Bench Press','4×10'],['Deadlifts','3×8'],['Pull-ups','3×8'],['Plank','3×45']]},
-    {id:'upper', emoji:'💪', name:'Upper Body Power', desc:'Focus on chest, back, shoulders, and arms to build upper body strength.', cat:'Upper Body', lvl:'Advanced', min:40, ex:[['Push-ups','4×20'],['Shoulder Press','4×10'],['Barbell Rows','4×12'],['Bicep Curls','3×12'],['Tricep Dips','3×12']]},
-    {id:'lower', emoji:'💪', name:'Lower Body Strength', desc:'Build powerful legs and glutes with this intensive lower body routine.', cat:'Lower Body', lvl:'Intermediate', min:35, ex:[['Squats','5×10'],['Lunges','4×12'],['Leg Press','4×15'],['Calf Raises','4×20'],['Romanian Deadlift','3×10']]},
-    {id:'core', emoji:'💪', name:'Core Crusher', desc:'Sculpt and strengthen your core with targeted abdominal exercises.', cat:'Core', lvl:'Beginner', min:20, ex:[['Plank','3×60'],['Crunches','3×20'],['Russian Twists','3×30'],['Leg Raises','3×15'],['Mountain Climbers','3×30']]},
-    {id:'hiit', emoji:'💪', name:'HIIT Cardio Burn', desc:'High-intensity interval training to torch calories and boost endurance.', cat:'Cardio', lvl:'Advanced', min:25, ex:[['Burpees','5×15'],['Jumping Jacks','5×30'],['High Knees','5×40'],['Mountain Climbers','5×30'],['Jump Squats','5×15']]},
-    {id:'begin', emoji:'💪', name:'Beginner Foundation', desc:'Perfect starting point for those new to fitness. Build a solid base.', cat:'Full Body', lvl:'Beginner', min:30, ex:[['Bodyweight Squats','3×12'],['Wall Push-ups','3×15'],['Glute Bridge','3×12'],['Dead Bug','3×10'],['Standing March','3×30']]}
+    {
+      id:'full',
+      emoji:'💪',
+      name:'Full Body Blast',
+      desc:'A complete full-body workout targeting all major muscle groups for maximum results.',
+      cat:'Full Body',
+      lvl:'Intermediate',
+      min:45,
+      ex:[
+        ['Squats','4×12'],
+        ['Bench Press','4×10'],
+        ['Deadlifts','3×8'],
+        ['Pull-ups','3×8'],
+        ['Plank','3×45']
+      ]
+    },
+    {
+      id:'upper',
+      emoji:'💪',
+      name:'Upper Body Power',
+      desc:'Focus on chest, back, shoulders, and arms to build upper body strength.',
+      cat:'Upper Body',
+      lvl:'Advanced',
+      min:40,
+      ex:[
+        ['Push-ups','4×20'],
+        ['Shoulder Press','4×10'],
+        ['Barbell Rows','4×12'],
+        ['Bicep Curls','3×12'],
+        ['Tricep Dips','3×12']
+      ]
+    },
+    {
+      id:'lower',
+      emoji:'💪',
+      name:'Lower Body Strength',
+      desc:'Build powerful legs and glutes with this intensive lower body routine.',
+      cat:'Lower Body',
+      lvl:'Intermediate',
+      min:35,
+      ex:[
+        ['Squats','5×10'],
+        ['Lunges','4×12'],
+        ['Leg Press','4×15'],
+        ['Calf Raises','4×20'],
+        ['Romanian Deadlift','3×10']
+      ]
+    },
+    {
+      id:'core',
+      emoji:'💪',
+      name:'Core Crusher',
+      desc:'Sculpt and strengthen your core with targeted abdominal exercises.',
+      cat:'Core',
+      lvl:'Beginner',
+      min:20,
+      ex:[
+        ['Plank','3×60'],
+        ['Crunches','3×20'],
+        ['Russian Twists','3×30'],
+        ['Leg Raises','3×15'],
+        ['Mountain Climbers','3×30']
+      ]
+    },
+    {
+      id:'hiit',
+      emoji:'💪',
+      name:'HIIT Cardio Burn',
+      desc:'High-intensity interval training to torch calories and boost endurance.',
+      cat:'Cardio',
+      lvl:'Advanced',
+      min:25,
+      ex:[
+        ['Burpees','5×15'],
+        ['Jumping Jacks','5×30'],
+        ['High Knees','5×40'],
+        ['Mountain Climbers','5×30'],
+        ['Jump Squats','5×15']
+      ]
+    },
+    {
+      id:'begin',
+      emoji:'💪',
+      name:'Beginner Foundation',
+      desc:'Perfect starting point for those new to fitness. Build a solid base.',
+      cat:'Full Body',
+      lvl:'Beginner',
+      min:30,
+      ex:[
+        ['Bodyweight Squats','3×12'],
+        ['Wall Push-ups','3×15'],
+        ['Glute Bridge','3×12'],
+        ['Dead Bug','3×10'],
+        ['Standing March','3×30']
+      ]
+    }
   ];
+
   let routines = store.get('routines', null) || base.map(r => ({...r}));
   let plan = store.get('plan', []);
-  let selected = routines[0].id;
+  let selected = routines[0] ? routines[0].id : 'full';
   let filter = 'All';
   let editing = null;
 
   const save = () => store.set('routines', routines);
 
-  /* ---------- toast ---------- */
+  /* TOAST */
   let tt;
-  const toast = msg => { const t = $('#ts'); t.textContent = msg; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 2400); };
 
-  /* ---------- 2. lista + detalle ---------- */
-  function renderBase(){
+  const toast = msg => {
+    const t = $('#ts');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(tt);
+    tt = setTimeout(() => t.classList.remove('show'), 2400);
+  };
+
+  /* BASE ROUTINE LIST + DETAIL */
+  function renderBase() {
     const fmt = v => String(v).replace(/\s*[×x]\s*/i, ' × ');
+
     $('#rl').innerHTML = routines.map(r => `
-      <button class="ri ${r.id===selected?'on':''}" data-id="${r.id}">
-        <span><b>${esc(r.name)}</b><small>${esc(r.cat)} · ${r.min}min</small></span>
+      <button class="ri ${r.id===selected?'on':''}" data-id="${esc(r.id)}">
+        <span>
+          <b>${esc(r.name)}</b>
+          <small>${esc(r.cat)} · ${r.min}min</small>
+        </span>
         <span class="ch2">›</span>
-      </button>`).join('');
+      </button>
+    `).join('');
+
     const r = routines.find(x => x.id === selected) || routines[0];
-    if(!r) { $('#dp').innerHTML = ''; return; }
+
+    if (!r) {
+      $('#dp').innerHTML = '';
+      return;
+    }
+
     $('#dp').innerHTML = `
       <div class="dh">
-        <div class="ic">${r.emoji}</div>
+        <div class="ic">${r.emoji || '💪'}</div>
         <div>
           <h3 class="h">${esc(r.name)}</h3>
           <p>${esc(r.desc)}</p>
-          <div class="tags"><span>${esc(r.lvl)}</span><span>⏱ ${r.min} min</span><span>${r.ex.length} exercises</span></div>
+          <div class="tags">
+            <span>${esc(r.lvl)}</span>
+            <span>⏱ ${r.min} min</span>
+            <span>${r.ex.length} exercises</span>
+          </div>
         </div>
       </div>
+
       <div class="db">
         <div class="eb">EXERCISE BREAKDOWN</div>
-        ${r.ex.map((e,i) => `<div class="ex"><span class="n">${i+1}</span><span class="nm">${esc(e[0])}</span><span class="rp">${esc(fmt(e[1]))}</span></div>`).join('')}
-        <button class="btn add" id="addPlan">${plan.includes(r.id) ? '✓ In Your Plan' : '+ Add This Routine to My Plan'}</button>
-      </div>`;
+        ${r.ex.map((e,i) => `
+          <div class="ex">
+            <span class="n">${i+1}</span>
+            <span class="nm">${esc(e[0])}</span>
+            <span class="rp">${esc(fmt(e[1]))}</span>
+          </div>
+        `).join('')}
+        <button class="btn add" id="addPlan">
+          ${plan.includes(r.id) ? '✓ In Your Plan' : '+ Add This Routine to My Plan'}
+        </button>
+      </div>
+    `;
   }
+
   $('#rl').addEventListener('click', e => {
-    const b = e.target.closest('.ri'); if(!b) return;
-    selected = b.dataset.id; renderBase();
-  });
-  $('#dp').addEventListener('click', e => {
-    if(!e.target.closest('#addPlan')) return;
-    const r = routines.find(x => x.id === selected);
-    if(plan.includes(r.id)){ toast('Already in your plan'); return; }
-    plan.push(r.id); store.set('plan', plan);
-    renderBase(); renderPlan(); toast('✓ ' + r.name + ' added to your plan');
+    const b = e.target.closest('.ri');
+    if (!b) return;
+    selected = b.dataset.id;
+    renderBase();
   });
 
-  /* ---------- 3. catálogo ---------- */
-  const cats = ['All','Full Body','Upper Body','Lower Body','Core','Cardio','Custom'];
-  function renderFilters(){
-    $('#fl').innerHTML = cats.map(c => `<button class="${c===filter?'on':''}" data-c="${c}">${c}</button>`).join('');
+  $('#dp').addEventListener('click', e => {
+    if (!e.target.closest('#addPlan')) return;
+
+    const r = routines.find(x => x.id === selected);
+    if (!r) return;
+
+    if (plan.includes(r.id)) {
+      toast('Already in your plan');
+      return;
+    }
+
+    plan.push(r.id);
+    store.set('plan', plan);
+    renderBase();
+    renderPlan();
+    toast('✓ ' + r.name + ' added to your plan');
+  });
+
+  /* CATALOG */
+  const cats = [
+    'All',
+    'Full Body',
+    'Upper Body',
+    'Lower Body',
+    'Core',
+    'Cardio',
+    'Custom'
+  ];
+
+  function renderFilters() {
+    $('#fl').innerHTML = cats.map(c => `
+      <button class="${c===filter?'on':''}" data-c="${c}">${c}</button>
+    `).join('');
   }
-  function renderCards(){
-    const list = routines.filter(r => filter==='All' ? true : filter==='Custom' ? r.custom : r.cat===filter);
+
+  function renderCards() {
+    const list = routines.filter(r =>
+      filter === 'All'
+        ? true
+        : filter === 'Custom'
+          ? r.custom
+          : r.cat === filter
+    );
+
     $('#cg').innerHTML = list.length ? list.map(r => `
       <article class="rc">
-        <div class="ic">${r.emoji}</div>
+        <div class="ic">${r.emoji || '💪'}</div>
         <h3 class="h">${esc(r.name)}</h3>
         <p>${esc(r.desc)}</p>
-        <div class="tags"><span>${esc(r.lvl)}</span><span>${esc(r.cat)}</span><span>⏱ ${r.min} min</span></div>
+
+        <div class="tags">
+          <span>${esc(r.lvl)}</span>
+          <span>${esc(r.cat)}</span>
+          <span>⏱ ${r.min} min</span>
+        </div>
+
         <ul>
-          ${r.ex.slice(0,3).map(e => `<li><span>${esc(e[0])}</span><b>${esc(e[1])}</b></li>`).join('')}
-          ${r.ex.length>3 ? `<li class="more">+${r.ex.length-3} more exercise${r.ex.length-3>1?'s':''}</li>` : ''}
+          ${r.ex.slice(0,3).map(e => `
+            <li><span>${esc(e[0])}</span><b>${esc(e[1])}</b></li>
+          `).join('')}
+          ${r.ex.length > 3
+            ? `<li class="more">+${r.ex.length-3} more exercise${r.ex.length-3>1?'s':''}</li>`
+            : ''}
         </ul>
-        <button class="edit" data-id="${r.id}">✏️ Edit</button>
-      </article>`).join('')
-      : `<div class="empty">${filter==='Custom' ? 'No custom routines yet. Press “+ New Routine” to create one.' : 'No routines in this category.'}</div>`;
+
+        <button class="edit" data-id="${esc(r.id)}">✏️ Edit</button>
+      </article>
+    `).join('') : `
+      <div class="empty">
+        ${filter==='Custom'
+          ? 'No custom routines yet. Press “+ New Routine” to create one.'
+          : 'No routines in this category.'}
+      </div>
+    `;
   }
+
   $('#fl').addEventListener('click', e => {
-    const b = e.target.closest('button'); if(!b) return;
-    filter = b.dataset.c; renderFilters(); renderCards();
-  });
-  $('#cg').addEventListener('click', e => {
-    const b = e.target.closest('.edit'); if(b) openModal(b.dataset.id);
+    const b = e.target.closest('button');
+    if (!b) return;
+    filter = b.dataset.c;
+    renderFilters();
+    renderCards();
   });
 
-  /* ---------- modal ---------- */
+  $('#cg').addEventListener('click', e => {
+    const b = e.target.closest('.edit');
+    if (b) openModal(b.dataset.id);
+  });
+
+  /* CREATE / EDIT MODAL */
   const ov = $('#ov');
-  function openModal(id){
+
+  function openModal(id) {
     editing = id || null;
     const r = id ? routines.find(x => x.id === id) : null;
+
     $('#mt').textContent = r ? 'Edit Routine' : 'New Routine';
     $('#f-name').value = r ? r.name : '';
     $('#f-desc').value = r ? r.desc : '';
     $('#f-cat').value = r ? r.cat : 'Full Body';
     $('#f-lvl').value = r ? r.lvl : 'Beginner';
     $('#f-min').value = r ? r.min : 30;
-    $('#f-ex').value = r ? r.ex.map(e => e[0] + ' — ' + e[1]).join('\n') : '';
+    $('#f-ex').value = r
+      ? r.ex.map(e => e[0] + ' — ' + e[1]).join('\n')
+      : '';
+
     $('#m-del').hidden = !(r && r.custom);
     ov.classList.add('show');
     setTimeout(() => $('#f-name').focus(), 30);
   }
+
   const closeModal = () => ov.classList.remove('show');
+
   $('#newBtn').onclick = () => openModal();
   $('#m-cancel').onclick = closeModal;
-  ov.addEventListener('click', e => { if(e.target === ov) closeModal(); });
-  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+
+  ov.addEventListener('click', e => {
+    if (e.target === ov) closeModal();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
 
   $('#m-save').onclick = () => {
     const name = $('#f-name').value.trim();
-    if(!name){ $('#f-name').focus(); toast('Please add a name'); return; }
-    const ex = $('#f-ex').value.split('\n').map(l => l.trim()).filter(Boolean).map(l => {
-      const m = l.split(/\s+[—–|-]\s+/);
-      return m.length > 1 ? [m.slice(0,-1).join(' — '), m[m.length-1]] : [l, ''];
-    });
-    if(!ex.length){ $('#f-ex').focus(); toast('Add at least one exercise'); return; }
+
+    if (!name) {
+      $('#f-name').focus();
+      toast('Please add a name');
+      return;
+    }
+
+    const ex = $('#f-ex').value
+      .split('\n')
+      .map(l => l.trim())
+      .filter(Boolean)
+      .map(l => {
+        const m = l.split(/\s+[—–|-]\s+/);
+        return m.length > 1
+          ? [m.slice(0,-1).join(' — '), m[m.length-1]]
+          : [l, ''];
+      });
+
+    if (!ex.length) {
+      $('#f-ex').focus();
+      toast('Add at least one exercise');
+      return;
+    }
+
     const data = {
-      name, desc: $('#f-desc').value.trim() || 'Custom routine.',
-      cat: $('#f-cat').value, lvl: $('#f-lvl').value,
-      min: Math.max(5, parseInt($('#f-min').value, 10) || 30), ex
+      name,
+      desc: $('#f-desc').value.trim() || 'Custom routine.',
+      cat: $('#f-cat').value,
+      lvl: $('#f-lvl').value,
+      min: Math.max(5, parseInt($('#f-min').value, 10) || 30),
+      ex
     };
-    if(editing){
+
+    if (editing) {
       Object.assign(routines.find(x => x.id === editing), data);
       toast('✓ Routine updated');
     } else {
@@ -278,62 +683,227 @@
       selected = id;
       toast('✓ Routine created');
     }
-    save(); closeModal(); renderBase(); renderCards(); renderPlan();
+
+    save();
+    closeModal();
+    renderBase();
+    renderCards();
+    renderPlan();
   };
+
   $('#m-del').onclick = () => {
-    if(!editing || !confirm('Delete this routine?')) return;
+    if (!editing || !confirm('Delete this routine?')) return;
+
     routines = routines.filter(x => x.id !== editing);
-    plan = plan.filter(x => x !== editing); store.set('plan', plan);
-    if(selected === editing) selected = routines[0].id;
-    save(); closeModal(); renderBase(); renderCards(); renderPlan(); toast('Routine deleted');
+    plan = plan.filter(x => x !== editing);
+    store.set('plan', plan);
+
+    if (selected === editing) {
+      selected = routines[0] ? routines[0].id : '';
+    }
+
+    save();
+    closeModal();
+    renderBase();
+    renderCards();
+    renderPlan();
+    toast('Routine deleted');
   };
 
-  /* ---------- 4. personalizar ---------- */
-  const prefs = Object.assign({health:'Excellent', level:'Beginner', budget:50, tod:'', days:[], goals:'', notes:''}, store.get('prefs', {}));
+  /* PERSONALIZATION */
+  const prefs = Object.assign({
+    health:'Excellent',
+    level:'Beginner',
+    budget:50,
+    tod:'',
+    days:[],
+    goals:'',
+    notes:''
+  }, store.get('prefs', {}));
 
-  const healthOpts = ['Excellent','Good','Average','Needs Attention'];
-  const levelOpts = ['Sedentary','Beginner','Intermediate','Advanced','Athlete'];
-  const todOpts = [['Morning','🌅'],['Afternoon','🌞'],['Evening','🌙']];
+  const healthOpts = [
+    'Excellent',
+    'Good',
+    'Average',
+    'Needs Attention'
+  ];
+
+  const levelOpts = [
+    'Sedentary',
+    'Beginner',
+    'Intermediate',
+    'Advanced',
+    'Athlete'
+  ];
+
+  const todOpts = [
+    ['Morning','🌅'],
+    ['Afternoon','🌞'],
+    ['Evening','🌙']
+  ];
+
   const dayOpts = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 
-  function renderPrefs(){
-    $('#health').innerHTML = healthOpts.map(h => `<button class="opt ${prefs.health===h?'on':''}" data-v="${h}">${h}</button>`).join('');
-    $('#level').innerHTML = levelOpts.map(l => `<button class="chip ${prefs.level===l?'on':''}" data-v="${l}">${l}</button>`).join('');
-    $('#tod').innerHTML = todOpts.map(t => `<button class="tod ${prefs.tod===t[0]?'on':''}" data-v="${t[0]}"><span>${t[1]}</span>${t[0]}</button>`).join('');
-    $('#days').innerHTML = dayOpts.map(d => `<button class="day ${prefs.days.includes(d)?'on':''}" data-v="${d}">${d}</button>`).join('');
-    $('#budget').value = prefs.budget; $('#bv').textContent = '$' + prefs.budget;
-    $('#goals').value = prefs.goals; $('#notes').value = prefs.notes;
+  function renderPrefs() {
+    $('#health').innerHTML = healthOpts.map(h => `
+      <button class="opt ${prefs.health===h?'on':''}" data-v="${h}">${h}</button>
+    `).join('');
+
+    $('#level').innerHTML = levelOpts.map(l => `
+      <button class="chip ${prefs.level===l?'on':''}" data-v="${l}">${l}</button>
+    `).join('');
+
+    $('#tod').innerHTML = todOpts.map(t => `
+      <button class="tod ${prefs.tod===t[0]?'on':''}" data-v="${t[0]}">
+        <span>${t[1]}</span>${t[0]}
+      </button>
+    `).join('');
+
+    $('#days').innerHTML = dayOpts.map(d => `
+      <button class="day ${prefs.days.includes(d)?'on':''}" data-v="${d}">${d}</button>
+    `).join('');
+
+    $('#budget').value = prefs.budget;
+    $('#bv').textContent = '$' + prefs.budget;
+    $('#goals').value = prefs.goals;
+    $('#notes').value = prefs.notes;
   }
-  $('#health').addEventListener('click', e => { const b = e.target.closest('button'); if(b){ prefs.health = b.dataset.v; renderPrefs(); } });
-  $('#level').addEventListener('click', e => { const b = e.target.closest('button'); if(b){ prefs.level = b.dataset.v; renderPrefs(); } });
-  $('#tod').addEventListener('click', e => { const b = e.target.closest('button'); if(b){ prefs.tod = prefs.tod===b.dataset.v ? '' : b.dataset.v; renderPrefs(); } });
+
+  $('#health').addEventListener('click', e => {
+    const b = e.target.closest('button');
+    if (b) {
+      prefs.health = b.dataset.v;
+      renderPrefs();
+    }
+  });
+
+  $('#level').addEventListener('click', e => {
+    const b = e.target.closest('button');
+    if (b) {
+      prefs.level = b.dataset.v;
+      renderPrefs();
+    }
+  });
+
+  $('#tod').addEventListener('click', e => {
+    const b = e.target.closest('button');
+    if (b) {
+      prefs.tod = prefs.tod === b.dataset.v ? '' : b.dataset.v;
+      renderPrefs();
+    }
+  });
+
   $('#days').addEventListener('click', e => {
-    const b = e.target.closest('button'); if(!b) return;
+    const b = e.target.closest('button');
+    if (!b) return;
+
     const d = b.dataset.v;
-    prefs.days = prefs.days.includes(d) ? prefs.days.filter(x => x!==d) : [...prefs.days, d];
+    prefs.days = prefs.days.includes(d)
+      ? prefs.days.filter(x => x !== d)
+      : [...prefs.days, d];
+
     renderPrefs();
   });
-  $('#budget').addEventListener('input', e => { prefs.budget = +e.target.value; $('#bv').textContent = '$' + prefs.budget; });
-  $('#goals').addEventListener('input', e => prefs.goals = e.target.value);
-  $('#notes').addEventListener('input', e => prefs.notes = e.target.value);
-  $('#save').onclick = () => { store.set('prefs', prefs); store.set('plan', plan); toast('✓ Plan saved'); };
 
-  function renderPlan(){
-    const items = plan.map(id => routines.find(r => r.id === id)).filter(Boolean);
-    $('#plan').innerHTML = items.length
-      ? '<small style="width:100%;text-align:center;color:#888;font-size:11px;letter-spacing:1px;font-weight:700">ROUTINES IN YOUR PLAN</small>' +
-        items.map(r => `<span>${esc(r.name)}<button data-id="${r.id}" aria-label="Remove ${esc(r.name)}">×</button></span>`).join('')
-      : '';
-  }
-  $('#plan').addEventListener('click', e => {
-    const b = e.target.closest('button'); if(!b) return;
-    plan = plan.filter(x => x !== b.dataset.id); store.set('plan', plan);
-    renderPlan(); renderBase();
+  $('#budget').addEventListener('input', e => {
+    prefs.budget = +e.target.value;
+    $('#bv').textContent = '$' + prefs.budget;
   });
 
-  /* ---------- init ---------- */
-  renderBase(); renderFilters(); renderCards(); renderPrefs(); renderPlan();
+  $('#goals').addEventListener('input', e => prefs.goals = e.target.value);
+  $('#notes').addEventListener('input', e => prefs.notes = e.target.value);
+
+  $('#save').onclick = () => {
+    store.set('prefs', prefs);
+    store.set('plan', plan);
+    toast('✓ Plan saved');
+  };
+
+  function renderPlan() {
+    const items = plan
+      .map(id => routines.find(r => r.id === id))
+      .filter(Boolean);
+
+    $('#plan').innerHTML = items.length
+      ? '<small class="plan-label">ROUTINES IN YOUR PLAN</small>' +
+        items.map(r => `
+          <span>
+            ${esc(r.name)}
+            <button data-id="${esc(r.id)}" aria-label="Remove ${esc(r.name)}">×</button>
+          </span>
+        `).join('')
+      : '';
+  }
+
+  $('#plan').addEventListener('click', e => {
+    const b = e.target.closest('button');
+    if (!b) return;
+
+    plan = plan.filter(x => x !== b.dataset.id);
+    store.set('plan', plan);
+    renderPlan();
+    renderBase();
+  });
+
+  /* INITIAL RENDER */
+  renderBase();
+  renderFilters();
+  renderCards();
+  renderPrefs();
+  renderPlan();
 })();
 </script>
+
+<!-- SCROLL ENTRANCE ANIMATIONS -->
+<script>
+(() => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+
+  const selector = '.base .sh, .base .bg, .cat .ch, .cat .fl, .cat .rc, .cu > .sh, .cu .cd, .cu .sv';
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('motion-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -35px 0px'
+  });
+
+  function observeElements(root) {
+    root.querySelectorAll(selector).forEach((element, index) => {
+      if (element.dataset.motionObserved) return;
+
+      element.dataset.motionObserved = 'true';
+      element.classList.add('motion-reveal');
+
+      if (element.classList.contains('rc')) {
+        element.style.setProperty('--motion-delay', `${(index % 3) * 90}ms`);
+      }
+
+      observer.observe(element);
+    });
+  }
+
+  observeElements(document);
+
+  const catalog = document.getElementById('cg');
+
+  if (catalog) {
+    const mutationObserver = new MutationObserver(() => {
+      observeElements(catalog);
+    });
+
+    mutationObserver.observe(catalog, {
+      childList: true
+    });
+  }
+})();
+</script>
+
 </body>
 </html>
