@@ -54,13 +54,14 @@
     }
 
     .brand {
-      font-size: 29px;
-      font-weight: 900;
-      letter-spacing: 4px;
+      display: flex;
+      align-items: center;
     }
 
-    .brand span {
-      color: var(--orange);
+    .brand img {
+      height: 40px;
+      width: auto;
+      display: block;
     }
 
     .back {
@@ -270,7 +271,7 @@
 
     .socials {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 10px;
     }
 
@@ -382,8 +383,8 @@
         padding: 0 20px;
       }
 
-      .brand {
-        font-size: 25px;
+      .brand img {
+        height: 34px;
       }
 
       main {
@@ -431,7 +432,7 @@
 <body>
   <header class="topbar">
     <a class="brand" href="index.html" aria-label="PRIME home">
-      PRIME<span>.</span>
+      <img src="data:image/png;base64,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" alt="PRIME">
     </a>
 
     <a class="back" href="index.html">← Back to PRIME</a>
@@ -539,9 +540,6 @@
             <button type="button" class="social" id="googleButton">
               Continue with Google
             </button>
-            <button type="button" class="social" id="appleButton">
-              Continue with Apple
-            </button>
           </div>
         </div>
 
@@ -645,7 +643,6 @@
     const messageBox = $("message");
     const submitButton = $("submitButton");
     const googleButton = $("googleButton");
-    const appleButton = $("appleButton");
     const rememberMe = $("rememberMe");
 
     // ==========================================
@@ -735,7 +732,6 @@
 
       submitButton.disabled = value;
       googleButton.disabled = value;
-      appleButton.disabled = value;
 
       if (value) {
         submitButton.textContent = label || "Please wait...";
@@ -1111,7 +1107,7 @@
     });
 
     // ==========================================
-    // 8. GOOGLE AND APPLE SIGN-IN
+    // 8. GOOGLE SIGN-IN
     // ==========================================
 
     async function signInWithProvider(provider) {
@@ -1141,10 +1137,6 @@
 
     googleButton.addEventListener("click", () => {
       signInWithProvider("google");
-    });
-
-    appleButton.addEventListener("click", () => {
-      signInWithProvider("apple");
     });
 
     // ==========================================

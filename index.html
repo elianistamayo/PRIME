@@ -16,8 +16,11 @@
 <body>
 
 <header class="hd">
-  <a href="#home">
-    <img src="https://static.wixstatic.com/media/3323d5_215bb3c0d0a4429b87c15a1325314844~mv2.png/v1/crop/x_179,y_109,w_293,h_165/fill/w_410,h_231,al_c,lg_1,q_85,enc_avif,quality_auto/Prime-removebg-preview.png" alt="PRIME">
+  <!-- LOGO: guarda tu logo como prime-logo.png en esta carpeta.
+       Si no existe, carga automaticamente la version original de Wix. -->
+  <a href="#home" class="logo" aria-label="PRIME - Inicio">
+    <img src="prime-logo.png" alt="PRIME"
+         onerror="this.onerror=null;this.src='https://static.wixstatic.com/media/3323d5_215bb3c0d0a4429b87c15a1325314844~mv2.png'">
   </a>
 
   <nav class="nav" id="nav">
@@ -99,16 +102,18 @@
         <h2>Book your court in<br>under a minute.</h2>
       </div>
 
-      <!-- Enlace al mapa interactivo -->
       <a href="map.html" class="map">View Interactive Map</a>
     </div>
 
     <div class="flt" id="flt">
       <button class="on2" data-s="all">All Sports</button>
+      <button data-s="swim">Swimming</button>
+      <button data-s="volley">Volleyball</button>
+      <button data-s="soccer">Soccer</button>
     </div>
 
     <div class="g3">
-      <article class="cc">
+      <article class="cc" data-s="swim">
         <div class="im" style="background-image:url('pool.jpg')"></div>
         <div class="in">
           <h3>La Chorrera Municipal Pool</h3>
@@ -118,7 +123,7 @@
         </div>
       </article>
 
-      <article class="cc">
+      <article class="cc" data-s="volley">
         <div class="im" style="background-image:url('volley.jpg')"></div>
         <div class="in">
           <h3>La Chorrera Volley Court</h3>
@@ -128,7 +133,7 @@
         </div>
       </article>
 
-      <article class="cc">
+      <article class="cc" data-s="soccer">
         <div class="im" style="background-image:url('turf.jpg')"></div>
         <div class="in">
           <h3>La Chorrera Turf Pitch</h3>
@@ -141,11 +146,7 @@
   </div>
 </section>
 
-
-
-
-
-<!-- ===== COMMUNITY (con botón Read more y tarjetas de grupos) ===== -->
+<!-- ===== COMMUNITY ===== -->
 <section id="community" class="cm">
   <div class="wrap">
     <div class="cmh">
@@ -235,17 +236,18 @@
       <p class="lbl">Contact</p>
       <h2>Let's talk?</h2>
 
-      <form onsubmit="return false">
-        <label class="fl">NAME</label>
-        <input placeholder="Your full name">
+      <form id="contactForm" novalidate>
+        <label class="fl" for="cName">NAME</label>
+        <input id="cName" name="name" placeholder="Your full name" autocomplete="name" required>
 
-        <label class="fl">EMAIL</label>
-        <input type="email" placeholder="you@example.com">
+        <label class="fl" for="cEmail">EMAIL</label>
+        <input id="cEmail" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
 
-        <label class="fl">MESSAGE</label>
-        <textarea placeholder="Tell us how we can help"></textarea>
+        <label class="fl" for="cMsg">MESSAGE</label>
+        <textarea id="cMsg" name="message" placeholder="Tell us how we can help" required></textarea>
 
-        <button class="btn" style="margin-top:16px">Send message</button>
+        <button type="submit" class="btn" style="margin-top:16px">Send message</button>
+        <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
 
         <div class="chips">
           <a href="mailto:hello@prime.app">✉ hello@prime.app</a>
@@ -256,12 +258,12 @@
 
     <div class="faq" style="padding-top:70px">
       <div class="q open">
-        <button>How do I book a court?<b></b></button>
+        <button type="button">How do I book a court?<b></b></button>
         <p>Explore the court map, filter by sport and schedule, and confirm your booking in seconds.</p>
       </div>
 
       <div class="q">
-        <button>Can I cancel a booking?<b></b></button>
+        <button type="button">Can I cancel a booking?<b></b></button>
         <p>Yes, you can cancel from your profile before the match starts.</p>
       </div>
     </div>
@@ -272,14 +274,27 @@
   <div class="wrap">
     <div class="fg">
       <div>
-        <div class="lg">PRIME<i>.</i></div>
+        <!-- Mismo logo que el header -->
+        <a href="#home" class="flogo" aria-label="PRIME - Inicio">
+          <img src="prime-logo.png" alt="PRIME"
+               onerror="this.onerror=null;this.src='https://static.wixstatic.com/media/3323d5_215bb3c0d0a4429b87c15a1325314844~mv2.png'">
+        </a>
         <p>Connect, train, and play. The platform that unites the sports community.</p>
         <div class="so"><span>IG</span><span>FB</span><span>TT</span></div>
       </div>
 
-      <div><h4>NAVIGATION</h4><ul><li>Home</li><li>Courts</li><li>Coaches</li></ul></div>
-      <div><h4>COMMUNITY</h4><ul><li>Groups</li><li>Blog</li></ul></div>
-      <div><h4>LEGAL</h4><ul><li>Terms and conditions</li></ul></div>
+      <div><h4>NAVIGATION</h4><ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#courts">Courts</a></li>
+        <li><a href="#community">Coaches</a></li>
+      </ul></div>
+      <div><h4>COMMUNITY</h4><ul>
+        <li><a href="community.html">Groups</a></li>
+        <li><a href="#blog">Blog</a></li>
+      </ul></div>
+      <div><h4>LEGAL</h4><ul>
+        <li><a href="#contact">Terms and conditions</a></li>
+      </ul></div>
     </div>
 
     <div class="cp">© 2026 Prime. All rights reserved.</div>
@@ -287,6 +302,7 @@
 </footer>
 
 <script>
+/* Menu movil */
 document.getElementById('bg').onclick = () =>
   document.getElementById('nav').classList.toggle('show');
 
@@ -294,10 +310,12 @@ document.querySelectorAll('#nav a').forEach(a =>
   a.onclick = () => document.getElementById('nav').classList.remove('show')
 );
 
+/* FAQ */
 document.querySelectorAll('.q button').forEach(b =>
   b.onclick = () => b.parentElement.classList.toggle('open')
 );
 
+/* Filtro de canchas por deporte */
 document.querySelectorAll('#flt button').forEach(b => b.onclick = () => {
   document.querySelectorAll('#flt button').forEach(x => x.classList.remove('on2'));
   b.classList.add('on2');
@@ -306,6 +324,33 @@ document.querySelectorAll('#flt button').forEach(b => b.onclick = () => {
     c.style.display = (b.dataset.s === 'all' || c.dataset.s === b.dataset.s) ? '' : 'none'
   );
 });
+
+/* Formulario de contacto: valida y abre el correo con el mensaje listo */
+(() => {
+  const form = document.getElementById('contactForm');
+  const status = document.getElementById('formStatus');
+  const show = (txt, ok) => {
+    status.textContent = txt;
+    status.className = 'form-status ' + (ok ? 'ok' : 'err');
+  };
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = document.getElementById('cName').value.trim();
+    const email = document.getElementById('cEmail').value.trim();
+    const msg = document.getElementById('cMsg').value.trim();
+
+    if (!name || !email || !msg) return show('Please fill in all fields.', false);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return show('Please enter a valid email.', false);
+
+    const subject = encodeURIComponent('Prime contact from ' + name);
+    const body = encodeURIComponent(msg + '\n\n— ' + name + ' (' + email + ')');
+    window.location.href = 'mailto:hello@prime.app?subject=' + subject + '&body=' + body;
+
+    show('Thanks, ' + name + '! Your email app is opening to send the message.', true);
+    form.reset();
+  });
+})();
 </script>
 
 <script>
@@ -320,14 +365,13 @@ document.getElementById('readMore').addEventListener('click', function(e){
 <!-- Sistema de reservas -->
 <script src="booking.js"></script>
 
-<!-- Aviso "You're in PRIME" después de iniciar sesión (no cambia el botón Sign In) -->
+<!-- Aviso "You're in PRIME" despues de iniciar sesion -->
 <script>
 (() => {
   try {
     if (!sessionStorage.getItem("prime_welcome")) return;
     sessionStorage.removeItem("prime_welcome");
 
-    // Nombre (si existe) tomado de la sesión guardada por Supabase
     let name = "";
     for (const store of [localStorage, sessionStorage]) {
       for (let i = 0; i < store.length; i++) {
@@ -353,14 +397,12 @@ document.getElementById('readMore').addEventListener('click', function(e){
 
 <!-- Animaciones PRIME -->
 <script>
-/* ============ PRIME · animaciones ============ */
 (() => {
   const doc = document.documentElement;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   doc.classList.add('js');
 
-  /* Reveal al hacer scroll (con escalonado en grupos) */
   const groups = ['.g3', '.cmg', '.pg', '.bar', '.stats', '.mini', '.two'];
   const single = ['.prof .lbl', '.prof h2', '.prof .sub', '.courts .ch', '.flt', '.cm .cmh',
                   '.imp .lbl', '.imp h2', '.blog .lbl', '.blog h2', '.bc', '.rm', '.ct h2', '.ct .lbl', '.sh', '.sign h2'];
@@ -375,7 +417,6 @@ document.getElementById('readMore').addEventListener('click', function(e){
   }), { threshold: .12, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.rv').forEach(el => io.observe(el));
 
-  /* Contadores animados (+30, +500, ...) */
   const count = el => {
     const txt = el.textContent.trim();
     const m = txt.match(/^(\D*)(\d+)(\D*)$/);
@@ -408,9 +449,7 @@ document.getElementById('readMore').addEventListener('click', function(e){
       card.addEventListener('mouseleave', () => { card.style.transform = ''; });
     });
   }
-
 })();
-
 </script>
 
 </body>
